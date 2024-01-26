@@ -1,0 +1,77 @@
+.loginWrapper {
+    width: 100%;
+    height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0px;
+}
+
+.pageData {
+    width: 500px;
+    height: auto;
+}
+
+.pageDataText {
+    font-size: 28px;
+    color: rgb(13, 123, 181);
+    padding-bottom: 20px;
+}
+
+.redirectText {
+    font-size: 17px;
+    padding-bottom: 20px;
+}
+
+.regisrationLink {
+    color: rgb(13, 123, 181);
+}
+
+.loginBlock {
+    width: 1400px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.responseText {
+    font-size: 17px;
+    color: rgb(107, 107, 107);
+}
+
+.inputBlock {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    grid-gap: 20px;
+}
+
+.inputUserData {
+    width: 250px;
+    font-size: 17px;
+    padding: 7px;
+    border-radius: 10px;
+    border: 1.5px solid rgb(131, 131, 131);
+}
+
+.buttonWrapper {
+    width: 250px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sendBtn {
+    padding: 8px 35px;
+    font-size: 17px;
+    background-color: rgb(13, 123, 181);
+    border: none;
+    color: rgb(236, 236, 236);
+    border-radius: 10px;
+}
