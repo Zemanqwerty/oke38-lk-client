@@ -91,7 +91,7 @@ const RegistrationPage: FC = () => {
                         onChange={e => setPhoneNumber(e.target.value)}
                         placeholder="Номер телефона"
                         value={phoneNumber}/>
-                    <input type="text"  className={styles.inputUserData}
+                    <input type="password"  className={styles.inputUserData}
                         onChange={e => setPassword(e.target.value)}
                         placeholder="Пароль"
                         value={password}/>
