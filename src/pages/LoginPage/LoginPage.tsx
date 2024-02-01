@@ -16,6 +16,8 @@ const LoginPage: FC = () => {
 
   const {store} = useContext(Context)
 
+
+  store.setEmail(null);
   store.setAuth(false);
 
   const login = () => {
