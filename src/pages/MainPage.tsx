@@ -9,7 +9,7 @@ const MainPage: FC = () => {
     const {store} = useContext(Context);
 
     useEffect(() => {
-        if (!store.isAuth || store.email === undefined || store.email === null) {
+        if (!store.isAuth) {
             navigate("/sign-in");
         }
     }, [store.isAuth, store.email, navigate]);
