@@ -7,9 +7,11 @@ const MainPage: FC = () => {
     const navigate = useNavigate();
 
     const {store} = useContext(Context);
+    console.log(store.isAuth);
+    console.log(store.email);
 
     useEffect(() => {
-        if (!store.isAuth) {
+        if (!localStorage.getItem('token')) {
             navigate("/sign-in");
         }
     }, [store.isAuth, store.email, navigate]);

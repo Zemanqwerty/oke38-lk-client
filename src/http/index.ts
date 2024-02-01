@@ -1,8 +1,8 @@
 import axios from "axios";
 import { AuthResponse } from "../models/response/AuthResponse";
 
-export const API_URL = 'http://2.60.115.218:5000';
-// export const API_URL = 'http://0.0.0.0:5010';
+// export const API_URL = 'http://2.60.115.218:5000';
+export const API_URL = 'http://0.0.0.0:5010';
 // export const API_URL = 'http://2.60.115.218:5000';
 
 const $api = axios.create({
@@ -16,9 +16,15 @@ $api.interceptors.request.use((config) => {
 });
 
 $api.interceptors.response.use((config) => {
+    console.log('config');
     return config;
 }, async (error) => {
+    console.log('try to get');
     const originalRequest = error.config;
+
+    console.log('object -------------');
+    console.log(error);
+    console.log('object -------------');
 
     if (error.response.status === 401 && error.config && !error.config._isRety) {
         originalRequest._isRety = true;

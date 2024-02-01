@@ -41,6 +41,7 @@ export default class Store {
             if (response.data.email) {
                 console.log('good');
                 localStorage.setItem('token', response.data.accessToken);
+                console.log(localStorage.getItem('token'));
                 this.setAuth(true);
                 this.setEmail(response.data.email);
             } else {
@@ -80,17 +81,22 @@ export default class Store {
     }
 
     async checkAuth() {
-        this.setLoading(true);
+        // this.setLoading(true);
         try {
             const response = await axios.get<AuthResponse>(`${API_URL}/auth/refresh`, {withCredentials: true});
 
+            console.log(`THIS IS ACCESS TOKEN: ${response.data.accessToken}`);
             localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
             this.setEmail(response.data.email);
+            console.log(`resonse email ${response.data.email}`);
+            console.log(response.data);
+            console.log(this.checkAuth);
+            console.log(this.email);
         } catch (e) {
             console.log(e);
         } finally {
-            this.setLoading(false);
+            // this.setLoading(false);
         }
     }
 
