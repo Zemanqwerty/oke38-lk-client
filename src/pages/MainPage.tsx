@@ -18,8 +18,8 @@ const MainPage: FC = () => {
 
     return (
         <>
-            {store.isAuth ? `User ${store.email}` : 'u'}
-            MAIN
+            {store.isAuth ? `User ${store.email} auth` : 'unauthorized'}
+            
         </>
     )
 }

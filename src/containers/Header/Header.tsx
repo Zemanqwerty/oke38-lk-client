@@ -22,6 +22,11 @@ const Header: FC = () => {
                         <p className={styles.dataText}>Личный кабинет по технологическому присоединению</p>
                     </div>
                 </div>
+                <div className={styles.logoutWrapper}>
+                    {store.isAuth
+                    ? <div className={styles.logoutBtn} onClick={() => store.logout()}>Выйти</div>
+                    : null}
+                </div>
             </div>
         </div>
         <hr className={styles.headerHr} />
