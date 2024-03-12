@@ -7,12 +7,26 @@
     padding: 10px 0px;
 }
 
+.headerWrapperMain {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+}
+
 .header {
     width: 1400px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.logoWrapperMain {
+    height: 60px;
+    width: auto;
 }
 
 .logoWrapper {
@@ -23,15 +37,32 @@
 .logo {
     height: 100%;
     width: auto;
+    cursor: pointer;
 }
 
 .dataWrapper {
-    width: 800px;
+    width: auto;
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: flex-end;
+}
+
+.dataBlock {
+    width: auto;
+    display: flex;
+    /* align-items: flex-end; */
+    justify-content: flex-start;
+    grid-gap: 25px;
+}
+
+.userDataWrapper {
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 }
 
 .data {
@@ -45,7 +76,8 @@
 }
 
 .headerHr {
-    border: 0.1px solid rgb(186, 186, 186);
+    border-top: 0.1px solid rgb(186, 186, 186);
+    margin-top: 10px;
 }
 
 .logoutWrapper {
@@ -64,3 +96,4 @@
     border-radius: 10px;
     cursor: pointer;
 }
+

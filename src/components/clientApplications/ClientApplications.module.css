@@ -1,0 +1,79 @@
+.applicationsWrapper {
+    width: 100%;
+    height: auto;
+    padding-top: 40px;
+}
+
+.applicationsTitle {
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    grid-gap: 20px;
+}
+
+.applicationsReloadImg {
+    height: 23px;
+}
+
+
+.applicationsTitleText {
+    color: rgb(55, 55, 55);
+    padding: 0;
+    margin: 0;
+}
+
+.applicationsBlockWrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10px;
+}
+
+.applicationsTable {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse; 
+}
+
+.applicationsTable tr td:first-child, .applicationsTable tr th:first-child {
+	border-left: none;
+    border-top: none;
+    border-bottom: none;
+}
+.applicationsTable tr td:last-child, .applicationsTable tr th:last-child {
+	border-right: none;
+    border-top: none;
+    border-bottom: none;
+}
+
+.tableTitles {
+    background-color: #0c6ca4;
+    color: aliceblue;
+    padding: 1px;
+    font-size: 14px;
+    max-width: 100px;
+    width: auto;
+    padding: 3px 10px;
+    border: 2px solid rgb(75, 136, 183);
+    border-top: none;
+    border-bottom: none;
+}
+
+.tableFields {
+    padding: 1px;
+    font-size: 16px;
+    max-width: 100px;
+    width: auto;
+    padding: 3px 10px;
+}
+
+.applicationId {
+    color: #0c6ca4;
+    text-decoration: underline;
+    cursor: pointer;
+}

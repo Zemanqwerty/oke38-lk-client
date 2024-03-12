@@ -1,9 +1,10 @@
 import { observer } from "mobx-react-lite";
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { Context } from "../..";
 import AuthService from "../../services/AuthService";
 import styles from './RegistrationPage.module.css'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Header from "../../containers/Header";
 
 const RegistrationPage: FC = () => {
 
@@ -15,9 +16,17 @@ const RegistrationPage: FC = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const navigate = useNavigate();
+
   const [response, setResponse] = useState<string | null>(null);
 
   const {store} = useContext(Context)
+
+  useEffect(() => {
+    if (store.isAuth) {
+        return navigate("/");
+    }
+  }, [store.isAuth, store.email, navigate]);
 
   const registration = () => {
     const registrationResponse = AuthService.registration(type, lastname, firstname, surname, email, phoneNumber, password).then((response) => {
@@ -37,6 +46,7 @@ const RegistrationPage: FC = () => {
   if (response) {
     return (
         <>
+            <Header />
             <div className={styles.responseMessageWrapper}>
                 <div className={styles.responseMessage}>{response}</div>
                 <div className={styles.responseMessage}>Если вы не получили письмо, проверьте папку "Спам"</div>
@@ -51,6 +61,7 @@ const RegistrationPage: FC = () => {
 
   return (
       <>
+        <Header />
           <div className={styles.loginWrapper}>
             <div className={styles.loginBlock}>
                 <div className={styles.pageData}>

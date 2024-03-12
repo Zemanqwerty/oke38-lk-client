@@ -4,6 +4,7 @@ import styles from './RequestForResetPasswordPage.module.css'
 import { useNavigate } from "react-router";
 import { Context } from "../..";
 import AuthService from "../../services/AuthService";
+import Header from "../../containers/Header";
 
 const RequestForResetPasswordPage = () => {
   const [email, setEmail] = useState<string>('');
@@ -30,6 +31,7 @@ const RequestForResetPasswordPage = () => {
   if (response) {
     return (
         <>
+            <Header />
             <div className={styles.responseMessageWrapper}>
                 <div className={styles.responseMessage}>{response}</div>
                 <div className={styles.responseMessage}>Если вы не получили письмо, проверьте папку "Спам"</div>

@@ -5,6 +5,7 @@ import AuthService from "../../services/AuthService";
 import styles from './ResetPasswordPage.module.css'
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
+import Header from "../../containers/Header";
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState<string>('');
@@ -36,6 +37,7 @@ const ResetPasswordPage = () => {
   if (response) {
     return (
         <>
+            <Header />
             <div className={styles.responseMessageWrapper}>
                 <div className={styles.responseMessage}>{response}</div>
                 <Link className={styles.regisrationLink} to='/sign-in'>Войти в личный кабинет</Link>
@@ -46,6 +48,7 @@ const ResetPasswordPage = () => {
 
   return (
     <>
+        <Header />
         <div className={styles.loginWrapper}>
             <div className={styles.loginBlock}>
                 <div className={styles.pageData}>

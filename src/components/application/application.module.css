@@ -1,0 +1,29 @@
+.applicationWrapper {
+    width: 100%;
+    height: auto;
+    padding-top: 50px;
+}
+
+.mainInfoWrapper {
+    width: 700px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    grid-gap: 15px;
+}
+
+.infoBlock {
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    grid-gap: 10px;
+    font-size: 18px;
+
+    p {
+        color: rgb(75, 136, 183);
+    }
+}

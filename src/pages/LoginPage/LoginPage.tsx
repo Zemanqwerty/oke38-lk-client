@@ -5,6 +5,7 @@ import { AxiosResponse } from "axios";
 import { observer } from "mobx-react-lite";
 import styles from './LoginPage.module.css';
 import { Link, useNavigate } from "react-router-dom";
+import Header from "../../containers/Header";
 
 const LoginPage: FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -16,9 +17,11 @@ const LoginPage: FC = () => {
 
   const {store} = useContext(Context)
 
-
-  store.setEmail(null);
-  store.setAuth(false);
+  useEffect(() => {
+    if (store.isAuth) {
+        return navigate("/");
+    }
+  }, [store.isAuth, store.email, navigate]);
 
   const login = () => {
     const loginResponse = store.login(email, password).then((response) => {
@@ -39,6 +42,7 @@ const LoginPage: FC = () => {
 
   return (
       <>
+        <Header />
           <div className={styles.loginWrapper}>
             <div className={styles.loginBlock}>
                 <div className={styles.pageData}>

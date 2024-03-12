@@ -1,7 +1,7 @@
 import React, {FC, useContext, useEffect, useState} from 'react';
 import { Context } from '.';
 import { observer } from 'mobx-react-lite';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import MainPage from './pages/MainPage';
 import TeamsPage from './pages/LoginPage';
 import Header from './containers/Header';
@@ -33,7 +33,7 @@ const App: FC = () => {
     <>
     
     <BrowserRouter>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/">
           <Route index element={<MainPage />} />

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { AuthResponse } from "../models/response/AuthResponse";
 
-export const API_URL = 'http://2.60.115.218:5000';
-// export const API_URL = 'http://localhost:5010';
+// export const API_URL = 'http://2.60.115.218:5000';
+export const API_URL = 'http://localhost:5010';
 // export const API_URL = 'http://2.60.115.218:5000';
 
 const $api = axios.create({
@@ -22,18 +22,14 @@ $api.interceptors.response.use((config) => {
     console.log('try to get');
     const originalRequest = error.config;
 
-    console.log('object -------------');
-    console.log(error);
-    console.log('object -------------');
-
-    if (error.response.status === 401 && error.config && !error.config._isRety) {
+    if (error.response.data.status === 401 && error.config && !error.config._isRety) {
         originalRequest._isRety = true;
         try {
             const response = await axios.get<AuthResponse>(`${API_URL}/auth/refresh`, {withCredentials: true});
             localStorage.setItem('token', response.data.accessToken);
             return $api.request(originalRequest);
         } catch {
-            console.log('unauthorized');
+            console.log('unauthorized 100%');
         }
     }
 })
