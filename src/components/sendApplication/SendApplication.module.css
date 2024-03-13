@@ -1,0 +1,72 @@
+.sendFormWrapper {
+    width: 100%;
+    height: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    /* background-color: aqua; */
+}
+
+.applicationForm {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    grid-gap: 20px;
+}
+
+.inputUserData {
+    width: 450px;
+    font-size: 17px;
+    padding: 7px;
+    border-radius: 10px;
+    border: 1.5px solid rgb(131, 131, 131);
+}
+
+.inputDescriptions {
+    font-size: 14px;
+    color: grey;
+}
+
+.formInputContainer {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    grid-gap: 7px;
+}
+
+.addFilesBtn {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(216, 216, 216);
+    cursor: pointer;
+    transition: .3s;
+
+    img {
+        height: 30px;
+    }
+}
+
+.addFilesBtn:hover {
+    background-color: rgb(206, 206, 206);
+    transition: .3s;
+}
+
+.documentsTitle {
+    margin-top: 20px;
+    font-size: 26px;
+    color: rgb(13, 123, 181);
+}

@@ -5,6 +5,9 @@ import { ApplicationsResponse } from "../../models/response/ApplicationsResponse
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { observable } from "mobx";
+import { FilesResponse } from "../../models/response/FilesResponse";
+import showIcon from '../../resources/images/show_icon.png';
+import downloadIcon from '../../resources/images/download_icon.png';
 
 interface ApplicationProps {
     application: ApplicationsResponse;
@@ -12,6 +15,17 @@ interface ApplicationProps {
 
 const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
     const {store} = useContext(Context);
+    const [files, setFiles] = useState<FilesResponse[]>([]);
+
+    useEffect(() => {
+        const getFilesByApplicationId = async (id: number) => {
+            await ApplicationsService.getFilesByApplication(id).then((response) => {
+                setFiles(response.data);
+            })
+        }
+
+        getFilesByApplicationId(props.application.id);
+    }, [])
 
     return (
         <div className={styles.applicationWrapper}>
@@ -40,6 +54,35 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
                 <div className={styles.infoBlock}>
                     <p>Адрес - </p>{props.application.status}
                 </div>
+            </div>
+            <div className={styles.filesWrapper}>
+                <div className={styles.fileTitlesWrapper}>
+                    <div className={styles.fileDataTitle}>
+                        Вид документа
+                    </div>
+                    <div className={styles.fileDataTitle}>
+                        Документ
+                    </div>
+                    <div className={styles.fileDataTitleToDo}>
+                        Действия
+                    </div>
+                </div>
+                {files.map((file) => {
+                    return (
+                        <div className={styles.fileInfoWrapper}>
+                            <div className={styles.fileDataInfo}>
+                                {file.fileType}
+                            </div>
+                            <div className={styles.fileDataInfo}>
+                                {file.fileName}
+                            </div>
+                            <div className={styles.fileDataInfoToDo}>
+                                <img src={downloadIcon} alt="Скачать" />
+                                <img src={showIcon} alt="Показать" />
+                            </div>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )
