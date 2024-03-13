@@ -15,11 +15,14 @@ const MainPage: FC = () => {
     const {store} = useContext(Context)
 
     const [activeBlock, setActiveBlock] = useState<React.ReactNode>()
+    
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             return navigate("/sign-in");
         }
+        
+        setActiveBlock(<ClientApplications setActiveBlock={setActiveBlock}/>);
     }, [store.isAuth, store.email, navigate]);
 
     return (

@@ -8,6 +8,7 @@ import { observable } from "mobx";
 import { FilesResponse } from "../../models/response/FilesResponse";
 import showIcon from '../../resources/images/show_icon.png';
 import downloadIcon from '../../resources/images/download_icon.png';
+import { API_URL } from "../../http";
 
 interface ApplicationProps {
     application: ApplicationsResponse;
@@ -77,8 +78,10 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
                                 {file.fileName}
                             </div>
                             <div className={styles.fileDataInfoToDo}>
-                                <img src={downloadIcon} alt="Скачать" />
-                                <img src={showIcon} alt="Показать" />
+                                <img src={downloadIcon} alt="Скачать" onClick={() => ApplicationsService.downloadImage(file.filePath, file.fileName)} />
+                                <a href={`${API_URL}/${file.filePath}`}>
+                                    <img src={showIcon} alt="Показать" />
+                                </a>
                             </div>
                         </div>
                     )
