@@ -38,7 +38,7 @@ const SendApplication: FC = () => {
     const [address, setAddress] = useState<string>('');
     const [maxPower, setMaxPower] = useState<string>('');
     const [powerLevel, setPowerLevel] = useState<string>('');
-    const [paymentsOption, setPaymentsOption] = useState<string>('');
+    const [paymentsOption, setPaymentsOption] = useState<string>('Оплата 100%');
     const [provider, setProvider] = useState<string>('ООО "Иркутскэнергосбыт"');
 
     const sendApplication = () => {
