@@ -32,7 +32,11 @@ const RegistrationPage: FC = () => {
     const registrationResponse = AuthService.registration(type, lastname, firstname, surname, email, phoneNumber, password).then((response) => {
         console.log(response);
         if(response?.status == 201){
-            setResponse('На указанную вами почту отправлено письмо для её подтверждения')
+            console.log(response.data.status);
+            if (response.data.status === 400) {
+                return setResponse('Пользователь с такой почтой уже зарегистрирован');
+            }
+            setResponse('На указанную вами почту отправлено письмо для её подтверждения, если вы не получили письмо, проверьте папку "Спам", Если вы не получили письмо, повторите процедуру регистрации и проверьте указанную вами электронную почту')
         } else {
             setResponse('Что-то пошло не так...')
         }
@@ -49,8 +53,6 @@ const RegistrationPage: FC = () => {
             <Header />
             <div className={styles.responseMessageWrapper}>
                 <div className={styles.responseMessage}>{response}</div>
-                <div className={styles.responseMessage}>Если вы не получили письмо, проверьте папку "Спам"</div>
-                <div className={styles.responseMessage}>Если вы не получили письмо, повторите процедуру регистрации и проверьте указанную вами электронную почту</div>
                 <div className={styles.tryAgainRegistrtion} onClick={() => setResponse(null)}>
                     Повторить регистрацию
                 </div>
