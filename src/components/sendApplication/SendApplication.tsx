@@ -41,6 +41,8 @@ const SendApplication: FC = () => {
     const [paymentsOption, setPaymentsOption] = useState<string>('Оплата 100%');
     const [provider, setProvider] = useState<string>('ООО "Иркутскэнергосбыт"');
 
+    const [response, setResponse] = useState<string>('');
+
     const sendApplication = () => {
         const application = new SendApplicationModel(
             applicationCopy,
@@ -60,7 +62,11 @@ const SendApplication: FC = () => {
         )
 
         ApplicationsService.sendApplication(application).then((response) => {
-            console.log(response);
+            if (response?.status === 201) {
+                setResponse('Вы успешно подали заявку! Отслеживать её статус вы можете в личном кабинете.');
+            } else {
+                setResponse('Что-то пошло не так...');
+            }
         })
     }
 
@@ -311,6 +317,7 @@ const SendApplication: FC = () => {
                         })}
                     </div>
                 </div>
+                {response}
                 <button onClick={sendApplication} className={styles.sendApplicationBtn}>Отправить</button>
             </div>
         </div>
