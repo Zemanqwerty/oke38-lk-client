@@ -83,14 +83,16 @@ export default class Store {
     async checkAuth() {
         // this.setLoading(true);
         try {
-            const response = await axios.get<AuthResponse>(`${API_URL}/auth/refresh`, {withCredentials: true});
+            // const response = await axios.get<AuthResponse>(`${API_URL}/auth/refresh`, {withCredentials: true});
 
-            console.log('access');
-            console.log(response.data.accessToken);
-            console.log('access');
-            localStorage.setItem('token', response.data.accessToken);
-            this.setAuth(true);
-            this.setEmail(response.data.email);
+            await AuthService.refresh().then((response) => {
+                console.log('access');
+                console.log(response.data.accessToken);
+                console.log('access');
+                localStorage.setItem('token', response.data.accessToken);
+                this.setAuth(true);
+                this.setEmail(response.data.email);
+            })
         } catch (e) {
             console.log('error while set access');
             console.log(e);

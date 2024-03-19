@@ -47,6 +47,18 @@ export default class AuthService {
         }
     }
 
+    static async refresh(): Promise<AxiosResponse> {
+        try {
+            const res = await $api.get<AuthResponse>(`/auth/refresh`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return $apiLocalNetwork.get<AuthResponse>(`/auth/refresh`, {withCredentials: true});
+        }
+    }
+
     static async requestForResetPassword(email: string): Promise<AxiosResponse<AuthResponse>> {
         try {
             const res = await $api.post<AuthResponse>('users/request-for-reset', {email});
