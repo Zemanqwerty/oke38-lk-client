@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import $api from "../http";
+import $apiLocalNetwork from "../httpLocalNetwork";
 import { ApplicationsResponse } from "../models/response/ApplicationsResponse";
 import { FilesResponse } from "../models/response/FilesResponse";
 import { NewApplication } from "../models/requests/NewApplication";
@@ -7,11 +8,27 @@ import { saveAs } from 'file-saver';
 
 export default class ApplicationsService {
     static async getAllByUser(): Promise<AxiosResponse<ApplicationsResponse[]>> {
-        return $api.get<ApplicationsResponse[]>('applications', {withCredentials: true});
+        try {
+            const res = await $api.get<ApplicationsResponse[]>('applications', {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return $apiLocalNetwork.get<ApplicationsResponse[]>('applications', {withCredentials: true});
+        }
     }
 
     static async getFilesByApplication(id: number): Promise<AxiosResponse<FilesResponse[]>> {
-        return $api.get<FilesResponse[]>(`applications/${id}/files`, {withCredentials: true});
+        try {
+            const res = await $api.get<FilesResponse[]>(`applications/${id}/files`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return $apiLocalNetwork.get<FilesResponse[]>(`applications/${id}/files`, {withCredentials: true});
+        }
     }
 
     static async sendApplication(application: NewApplication): Promise<AxiosResponse | any>{
@@ -50,18 +67,34 @@ export default class ApplicationsService {
             formData.append('paymentsOption', application.paymentsOption);
             formData.append('provider', application.provider);
 
-            const response = $api.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
-
-            return response
+            try {
+                const res = await $api.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
+                if (res.status !== 201) {
+                    throw new Error();
+                }
+                return res;
+            } catch {
+                return $api.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
+            }
         } catch (e) {
             console.log(e);
         }
     }
 
     static async downloadImage(filePath: string, fileName: string) {
-        $api.get<Blob>(`${filePath}`, {withCredentials: true, responseType: 'blob'}).then((response) => {
-            const blob = new Blob([response.data]);
-            saveAs(blob, `${fileName}`);
-        })
+        try {
+            const res = await $api.get<Blob>(`${filePath}`, {withCredentials: true, responseType: 'blob'}).then((response) => {
+                if (response.status !== 200) {
+                    throw new Error();
+                }
+                const blob = new Blob([response.data]);
+                saveAs(blob, `${fileName}`);
+            });
+        } catch {
+            return $apiLocalNetwork.get<Blob>(`${filePath}`, {withCredentials: true, responseType: 'blob'}).then((response) => {
+                const blob = new Blob([response.data]);
+                saveAs(blob, `${fileName}`);
+            })
+        }
     }
 }

@@ -2,21 +2,21 @@ import axios from "axios";
 import { AuthResponse } from "../models/response/AuthResponse";
 
 // export const API_URL = 'http://2.60.115.218:5000';
-export const API_URL = 'http://localhost:5000';
+export const API_URL = 'http://localhost:5010';
 // export const API_URL = 'http://192.168.0.105:5010';
-// export const API_URL = 'http://90.188.229.86:5000';
+// export const API_URL = 'http://192.168.3.166:5000';
 
-const $api = axios.create({
+const $apiLocalNetwork = axios.create({
     withCredentials: true,
     baseURL: API_URL,
 });
 
-$api.interceptors.request.use((config) => {
+$apiLocalNetwork.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
     return config;
 });
 
-$api.interceptors.response.use((config) => {
+$apiLocalNetwork.interceptors.response.use((config) => {
     console.log('config');
     return config;
 }, async (error) => {
@@ -28,11 +28,11 @@ $api.interceptors.response.use((config) => {
         try {
             const response = await axios.get<AuthResponse>(`${API_URL}/auth/refresh`, {withCredentials: true});
             localStorage.setItem('token', response.data.accessToken);
-            return $api.request(originalRequest);
+            return $apiLocalNetwork.request(originalRequest);
         } catch {
             console.log('unauthorized 100%');
         }
     }
 })
 
-export default $api;
+export default $apiLocalNetwork;
