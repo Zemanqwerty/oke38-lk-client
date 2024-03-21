@@ -25,6 +25,15 @@ const MainPage: FC = () => {
         setActiveBlock(<ClientApplications setActiveBlock={setActiveBlock}/>);
     }, [store.isAuth, store.email, navigate]);
 
+    if (store.role === 'admin') {
+        return (
+            <>
+            <MainHeader />
+            admin
+            </>
+        )
+    }    
+
     return (
         <>
             <MainHeader />

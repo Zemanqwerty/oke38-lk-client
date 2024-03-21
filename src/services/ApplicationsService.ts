@@ -74,7 +74,7 @@ export default class ApplicationsService {
                 }
                 return res;
             } catch {
-                return $api.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
+                return $apiLocalNetwork.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
             }
         } catch (e) {
             console.log(e);

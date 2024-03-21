@@ -6,6 +6,7 @@ import { API_URL } from "../http";
 
 export default class Store {
     email: string | null = null;
+    role: string = '';
     isAuth = false;
     isLoading = false;
     response: string = '';
@@ -20,6 +21,10 @@ export default class Store {
 
     setEmail(email: string | null) {
         this.email = email;
+    }
+
+    setRole(role: string) {
+        this.role = role;
     }
 
     setResponse(message: string) {
@@ -44,6 +49,7 @@ export default class Store {
                 console.log(localStorage.getItem('token'));
                 this.setAuth(true);
                 this.setEmail(response.data.email);
+                this.setRole(response.data.role);
             } else {
                 this.setAuth(false);
                 this.setEmail(null);
@@ -92,6 +98,7 @@ export default class Store {
                 localStorage.setItem('token', response.data.accessToken);
                 this.setAuth(true);
                 this.setEmail(response.data.email);
+                this.setRole(response.data.role);
             })
         } catch (e) {
             console.log('error while set access');

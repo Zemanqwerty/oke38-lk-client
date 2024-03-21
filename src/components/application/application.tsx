@@ -92,4 +92,3 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
 };
 
 export default observer(Application);
-
