@@ -44,16 +44,16 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
                     <p>Дата подачи заявки - </p>{props.application.createdAt.toString().split('T')[0]}
                 </div>
                 <div className={styles.infoBlock}>
-                    <p>Адрес - </p>{props.application.maxPower}
+                    <p>Максимальная мощность энергопринимающих устройств, кВт: - </p>{props.application.maxPower}
                 </div>
                 <div className={styles.infoBlock}>
-                    <p>Адрес - </p>{props.application.powerLevel}
+                    <p>Уровень напряжения - </p>{props.application.powerLevel}
                 </div>
                 <div className={styles.infoBlock}>
-                    <p>Адрес - </p>{props.application.provider}
+                    <p>Гарантирующий поставщик - </p>{props.application.provider}
                 </div>
                 <div className={styles.infoBlock}>
-                    <p>Адрес - </p>{props.application.status}
+                    <p>Статус заявки - </p>{props.application.status}
                 </div>
             </div>
             <div className={styles.filesWrapper}>
