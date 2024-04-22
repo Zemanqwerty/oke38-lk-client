@@ -28,6 +28,25 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
         getFilesByApplicationId(props.application.id);
     }, [])
 
+    const setFileType = (fileType: string) => {
+        switch(fileType) {
+            case 'applicationCopy':
+                return 'заявка на ТП';
+            case 'passportCopy':
+                return 'документ, удостоверяющий личность заявителя';
+            case 'planeCopy':
+                return 'план расположения энергопринимающих устройств';
+            case 'ownDocsCopy':
+                return 'право собственности';
+            case 'powerOfAttorneyCopy':
+                return 'полномочия представителя заявителя';
+            case 'constituentDocsCopy':
+                return 'учредительные документы';
+            case 'otherDocs':
+                return 'прочие документы';
+        }
+    }
+
     return (
         <div className={styles.applicationWrapper}>
             <div className={styles.mainInfoWrapper}>
@@ -41,7 +60,7 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
                     <p>Адрес - </p>{props.application.address}
                 </div>
                 <div className={styles.infoBlock}>
-                    <p>Дата подачи заявки - </p>{props.application.createdAt.toString().split('T')[0]}
+                    <p>Дата подачи заявки - </p>{props.application.createdAt.toString().split('T')[0].replace(/-/g, ".")}
                 </div>
                 <div className={styles.infoBlock}>
                     <p>Максимальная мощность энергопринимающих устройств, кВт: - </p>{props.application.maxPower}
@@ -72,7 +91,8 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
                     return (
                         <div className={styles.fileInfoWrapper}>
                             <div className={styles.fileDataInfo}>
-                                {file.fileType}
+                                {/* {file.fileType} */}
+                                {setFileType(file.fileType)}
                             </div>
                             <div className={styles.fileDataInfo}>
                                 {file.fileName}

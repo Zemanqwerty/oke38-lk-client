@@ -51,6 +51,11 @@
     border-bottom: none;
 }
 
+.applicationBlock {
+    padding: 15px 0;
+    height: 50px;
+}
+
 .tableTitles {
     background-color: #0c6ca4;
     color: aliceblue;

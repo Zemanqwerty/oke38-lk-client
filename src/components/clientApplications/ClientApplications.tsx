@@ -19,7 +19,7 @@ const ClientApplications: FC<ApplicationsProps> = (props: ApplicationsProps) => 
 
     const getAllApplications = async () => {
         await ApplicationsService.getAllByUser().then((response) => {
-            response?.data ? setApplications(response?.data) : setApplications([])
+            response?.data.length > 0 ? setApplications(response?.data) : setApplications([])
         })
     }
 
@@ -46,18 +46,20 @@ const ClientApplications: FC<ApplicationsProps> = (props: ApplicationsProps) => 
                         <th className={styles.tableTitles}>Статус заявки</th>
                     </tr>
                     {applications.map((application) => {
-                        return (
-                            <tr key={application.id} className={styles.applicationBlock}>
-                                <td className={styles.tableFields}>{application.createdAt.toString().split('T')[0]}</td>
-                                <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => props.setActiveBlock(<Application application={application}/>)}>{application.id}</td>
-                                <td className={styles.tableFields}>{application.city}</td>
-                                <td className={styles.tableFields}>{application.address}</td>
-                                <td className={styles.tableFields}>{application.provider}</td>
-                                <td className={styles.tableFields}>{application.maxPower}</td>
-                                <td className={styles.tableFields}>{application.powerLevel}</td>
-                                <td className={styles.tableFields}>{application.status}</td>
-                            </tr>
-                        )
+                        if (applications.length !== 0) {
+                            return (
+                                <tr key={application.id} className={styles.applicationBlock}>
+                                    <td className={styles.tableFields}>{application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
+                                    <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => props.setActiveBlock(<Application application={application}/>)}>{application.id}</td>
+                                    <td className={styles.tableFields}>{application.city}</td>
+                                    <td className={styles.tableFields}>{application.address}</td>
+                                    <td className={styles.tableFields}>{application.provider}</td>
+                                    <td className={styles.tableFields}>{application.maxPower}</td>
+                                    <td className={styles.tableFields}>{application.powerLevel}</td>
+                                    <td className={styles.tableFields}>{application.status}</td>
+                                </tr>
+                            )
+                        }
                     })}
                 </table>
             </div>

@@ -11,11 +11,24 @@ export default class ApplicationsService {
         try {
             const res = await $api.get<ApplicationsResponse[]>('applications', {withCredentials: true});
             if (res.status !== 200) {
+                console.log(res);
                 throw new Error();
             }
             return res;
         } catch {
             return $apiLocalNetwork.get<ApplicationsResponse[]>('applications', {withCredentials: true});
+        }
+    }
+
+    static async getAll(pageNumber: number): Promise<AxiosResponse<ApplicationsResponse[]>> {
+        try {
+            const res = await $api.get<ApplicationsResponse[]>(`applications/all/?page=${pageNumber}`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return $apiLocalNetwork.get<ApplicationsResponse[]>('applications/all', {withCredentials: true});
         }
     }
 
@@ -95,6 +108,30 @@ export default class ApplicationsService {
                 const blob = new Blob([response.data]);
                 saveAs(blob, `${fileName}`);
             })
+        }
+    }
+
+    static async setFilial(id: number, filial: string) {
+        try {
+            const res = await $api.post<FilesResponse[]>(`applications/${id}/filial`, {filial}, {withCredentials: true});
+            if (res.status !== 201) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return $apiLocalNetwork.post<FilesResponse[]>(`applications/${id}/filial`, {filial}, {withCredentials: true});
+        }
+    }
+
+    static async setNumberStatus(id: number, number: string | undefined, status: string | undefined) {
+        try {
+            const res = await $api.post<FilesResponse[]>(`applications/${id}/numberstatus`, {number, status}, {withCredentials: true});
+            if (res.status !== 201) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return $apiLocalNetwork.post<FilesResponse[]>(`applications/${id}/numberstatus`, {number, status}, {withCredentials: true});
         }
     }
 }

@@ -1,0 +1,122 @@
+.filesWrapper {
+    width: 1400px;
+    height: auto;
+    /* padding: 30px 0 0 0; */
+}
+
+.fileTitlesWrapper {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(202, 202, 202);
+    /* border-radius: 16px 16px 0 0; */
+}
+
+.fileInfoWrapper {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: aliceblue;
+}
+
+.fileDataTitle, .fileDataTitleToDo, .fileDataInfo, .fileDataInfoToDo {
+    width: 450px;
+    height: 50px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.fileDataInfo {
+    background-color: aliceblue;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+.fileDataTitleToDo {
+    width: 100px;
+}
+
+.fileDataInfoToDo {
+    width: 100px;
+    background-color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+        width: 30px;
+        height: 30px;
+        background-color: rgb(189, 203, 216);
+        padding: 5px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+}
+
+
+.applicationTextDataWrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.DataTitle {
+    width: 1400px;
+    height: auto;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(202, 202, 202);
+    border-radius: 16px 16px 0 0;
+
+    p {
+        font-size: 16px;
+    }
+}
+
+.applicationTitles {
+    width: 1400px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.applicationTitlesBottom {
+    width: 1400px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.title {
+    border: 1px solid rgb(201, 201, 201);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(235, 235, 235);
+}
+
+.applicationInfoText {
+    border: 1px solid rgb(201, 201, 201);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.applicationContractDataWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    grid-gap: 40px;
+}

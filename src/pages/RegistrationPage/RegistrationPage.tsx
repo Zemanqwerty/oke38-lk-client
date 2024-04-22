@@ -8,7 +8,7 @@ import Header from "../../containers/Header";
 
 const RegistrationPage: FC = () => {
 
-  const [type, setType] = useState<string>('');
+  const [type, setType] = useState<string>('Физическое лицо');
   const [lastname, setLastname] = useState<string>('');
   const [firstname, setFirstname] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
@@ -80,9 +80,9 @@ const RegistrationPage: FC = () => {
                         
                         value={type}/> */}
                     <select value={type} onChange={handleTypeChange} className={styles.inputUserData}>
-                        <option value="option1">Физическое лицо</option>
-                        <option value="option2">Юридическое лицо</option>
-                        <option value="option3">Индивидуальный предприниматель</option>
+                        <option value="Физическое лицо">Физическое лицо</option>
+                        <option value="Юридическое лицо">Юридическое лицо</option>
+                        <option value="Индивидуальный предприниматель">Индивидуальный предприниматель</option>
                     </select>
                     <input type="text" className={styles.inputUserData}
                         onChange={e => setLastname(e.target.value)}

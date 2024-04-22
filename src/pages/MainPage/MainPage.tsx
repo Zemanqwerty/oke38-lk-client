@@ -9,6 +9,8 @@ import MainHeader from "../../containers/MainHeader";
 import SendApplication from "../../components/sendApplication";
 import ApplicationsService from "../../services/ApplicationsService";
 import { ApplicationsResponse } from "../../models/response/ApplicationsResponse";
+import AdminDashboard from "../../containers/AdminDashboard";
+import AdminUsers from "../../containers/AdminUsers";
 
 const MainPage: FC = () => {
     const navigate = useNavigate();
@@ -22,15 +24,33 @@ const MainPage: FC = () => {
             return navigate("/sign-in");
         }
         
-        setActiveBlock(<ClientApplications setActiveBlock={setActiveBlock}/>);
+        if (store.role === 'admin') {
+            setActiveBlock(<AdminDashboard setActiveBlock={setActiveBlock}/>)
+        } else {
+            setActiveBlock(<ClientApplications setActiveBlock={setActiveBlock}/>);
+        }
     }, [store.isAuth, store.email, navigate]);
 
     if (store.role === 'admin') {
+       
         return (
             <>
             <MainHeader />
-            admin
-            </>
+            <div className={styles.containerWrapper}>
+                <div className={styles.container}>
+                    <div className={styles.topWrapper}>
+                        <div className={styles.lkApplicationsNav}>
+                            <button className={styles.lkApplicationsNavBtn} onClick={() => setActiveBlock(<AdminDashboard setActiveBlock={setActiveBlock}/>)}>Все заявки</button>
+                            <button className={styles.lkApplicationsNavBtn} onClick={() => setActiveBlock(<AdminUsers setActiveBlock={setActiveBlock}/>)}>Пользователи</button>
+                        </div>
+                        {/* <div className="">
+                            <button className={styles.lkNavInfoBtn}>Справка</button>
+                        </div> */}
+                    </div>
+                    {activeBlock}
+                </div>
+            </div>
+        </>
         )
     }    
 
