@@ -16,7 +16,7 @@ export default class ApplicationsService {
             }
             return res;
         } catch {
-            return $apiLocalNetwork.get<ApplicationsResponse[]>('applications', {withCredentials: true});
+            return await $apiLocalNetwork.get<ApplicationsResponse[]>('applications', {withCredentials: true});
         }
     }
 
@@ -28,7 +28,7 @@ export default class ApplicationsService {
             }
             return res;
         } catch {
-            return $apiLocalNetwork.get<ApplicationsResponse[]>('applications/all', {withCredentials: true});
+            return await $apiLocalNetwork.get<ApplicationsResponse[]>(`applications/all/?page=${pageNumber}`, {withCredentials: true});
         }
     }
 
@@ -40,7 +40,7 @@ export default class ApplicationsService {
             }
             return res;
         } catch {
-            return $apiLocalNetwork.get<FilesResponse[]>(`applications/${id}/files`, {withCredentials: true});
+            return await $apiLocalNetwork.get<FilesResponse[]>(`applications/${id}/files`, {withCredentials: true});
         }
     }
 
@@ -87,7 +87,7 @@ export default class ApplicationsService {
                 }
                 return res;
             } catch {
-                return $apiLocalNetwork.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
+                return await $apiLocalNetwork.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
             }
         } catch (e) {
             console.log(e);
@@ -104,7 +104,7 @@ export default class ApplicationsService {
                 saveAs(blob, `${fileName}`);
             });
         } catch {
-            return $apiLocalNetwork.get<Blob>(`${filePath}`, {withCredentials: true, responseType: 'blob'}).then((response) => {
+            return await $apiLocalNetwork.get<Blob>(`${filePath}`, {withCredentials: true, responseType: 'blob'}).then((response) => {
                 const blob = new Blob([response.data]);
                 saveAs(blob, `${fileName}`);
             })
@@ -119,7 +119,7 @@ export default class ApplicationsService {
             }
             return res;
         } catch {
-            return $apiLocalNetwork.post<FilesResponse[]>(`applications/${id}/filial`, {filial}, {withCredentials: true});
+            return await $apiLocalNetwork.post<FilesResponse[]>(`applications/${id}/filial`, {filial}, {withCredentials: true});
         }
     }
 
@@ -131,7 +131,7 @@ export default class ApplicationsService {
             }
             return res;
         } catch {
-            return $apiLocalNetwork.post<FilesResponse[]>(`applications/${id}/numberstatus`, {number, status}, {withCredentials: true});
+            return await $apiLocalNetwork.post<FilesResponse[]>(`applications/${id}/numberstatus`, {number, status}, {withCredentials: true});
         }
     }
 }
