@@ -12,7 +12,7 @@ export default class UsersService {
             }
             return res;
         } catch {
-            return $apiLocalNetwork.get<UsersResponse[]>(`users/admin/all?page=${pageNumber}`, {withCredentials: true});
+            return await $apiLocalNetwork.get<UsersResponse[]>(`users/admin/all?page=${pageNumber}`, {withCredentials: true});
         }
     }
 }
