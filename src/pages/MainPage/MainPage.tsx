@@ -31,7 +31,7 @@ const MainPage: FC = () => {
         }
     }, [store.isAuth, store.email, navigate]);
 
-    if (store.role === 'admin') {
+    if (store.role === 'администратор') {
        
         return (
             <>
