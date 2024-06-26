@@ -5,6 +5,7 @@ import { ApplicationsResponse } from "../models/response/ApplicationsResponse";
 import { FilesResponse } from "../models/response/FilesResponse";
 import { NewApplication } from "../models/requests/NewApplication";
 import { saveAs } from 'file-saver';
+import { EditApplicationData } from "../models/requests/EditApplicationData";
 
 export default class ApplicationsService {
     static async getAllByUser(): Promise<AxiosResponse<ApplicationsResponse[]>> {
@@ -91,6 +92,30 @@ export default class ApplicationsService {
             }
         } catch (e) {
             console.log(e);
+        }
+    }
+
+    static async editApplicationData(application: EditApplicationData, id: number): Promise<AxiosResponse | any>{
+        try {
+            const res = await $api.post(`applications/${id}/edit`, application, {withCredentials: true});
+            if (res.status !== 201) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.post(`applications/${id}/edit`, application, {withCredentials: true});
+        }
+    }
+
+    static async deleteApplicationFiles(applicationId: number, fileId: number): Promise<AxiosResponse | any>{
+        try {
+            const res = await $api.delete(`applications/${applicationId}/deleteFile/${fileId}`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.delete(`applications/${applicationId}/deleteFile/${fileId}`, {withCredentials: true});
         }
     }
 

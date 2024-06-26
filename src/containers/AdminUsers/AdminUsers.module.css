@@ -89,6 +89,18 @@
     width: auto;
     padding: 5px;
     border: 1px solid rgb(233, 233, 233);
+
+    .imageWrapper {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    img {
+        height: 40px;
+        cursor: pointer;
+    }
 }
 
 .applicationId {
@@ -172,4 +184,39 @@
     border-radius: 0 4px 4px 0;
     border-left: none;
     cursor: pointer;
+}
+
+.createNewUserBtn {
+    font-size: 18px;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    background-color: #0c6ca4;
+    color: aliceblue;
+}
+
+.canChange {
+    cursor: pointer;
+    /* display: flex !important; */
+    justify-content: flex-end !important;
+}
+
+
+.changeImg {
+    height: 20px !important;
+}
+
+.changeble {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    padding-right: 10px;
+}
+
+.changeble :only-child {
+    margin-left: auto;
 }

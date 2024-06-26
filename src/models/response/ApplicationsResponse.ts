@@ -1,8 +1,6 @@
 export interface ApplicationsResponse {
     createdAt: Date;
-    id: number;
     uuid: string;
-    city: string;
     address: string;
     maxPower: string;
     powerLevel: string;

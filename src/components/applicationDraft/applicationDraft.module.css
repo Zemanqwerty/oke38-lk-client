@@ -41,11 +41,12 @@
 }
 
 .fileDataInfoToDo {
-    width: 100px;
+    width: 150px;
     background-color: aliceblue;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    justify-content: flex-end;
+    grid-gap: 15px;
 
     img {
         width: 30px;

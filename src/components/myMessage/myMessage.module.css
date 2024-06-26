@@ -1,0 +1,17 @@
+.myMessageBlock {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.myMessage {
+    width: auto;
+    height: auto;
+    max-width: 500px;
+    min-width: 200px;
+    padding: 5px 10px;
+    background-color: #b8d1e7;
+    border-radius: 9px 9px 0 9px;
+    color: black;
+}

@@ -38,12 +38,12 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
     }
     
     const menuElements: MenuElement[] = [
-      { title: 'Заявка (черновик)', body: <ApplicationDraft files={files} /> },
+      { title: 'Заявка (черновик)', body: <ApplicationDraft files={files} application={props.application} setFiles={setFiles}/> },
       { title: 'Заявка (рабочая)', body: <ApplicationWorking /> },
       { title: 'Договор ТП', body: <ApplicationContractData /> },
       { title: 'Счет (оплата)', body: <ApplicationBillPaying /> },
       { title: 'Договор Энергоснабжения', body: <ApplicationEnergiContract /> },
-      { title: 'Переписка', body: <ApplicationChating /> },
+    //   { title: 'Переписка', body: <ApplicationChating id={props.application.uuid}/> },
     ];
 
     const [currentMenuElement, setCurrentMenuElement] = useState<number>(0);
@@ -52,14 +52,14 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
         setCurrentMenuElement(id)
     }
 
-    useEffect(() => {
-        const getFilesByApplicationId = async (id: number) => {
-            await ApplicationsService.getFilesByApplication(id).then((response) => {
-                setFiles(response.data);
-            })
-        }
-        getFilesByApplicationId(props.application.id);
-    }, [])
+    // useEffect(() => {
+    //     const getFilesByApplicationId = async (id: number) => {
+    //         await ApplicationsService.getFilesByApplication(id).then((response) => {
+    //             setFiles(response.data);
+    //         })
+    //     }
+    //     getFilesByApplicationId(props.application.id);
+    // }, [])
 
     return (
         <div className={styles.applicationWrapper}>
@@ -175,7 +175,7 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
                         <p></p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.city}, {props.application.address}</p>
+                        <p>{props.application.address}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.maxPower}</p>
@@ -213,15 +213,14 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
             </div>
 
             <ModalWindow isOpen={setFilialIsOpen} toggle={setFilialToggle}>
-                {/* <CreateNewLessonModal toggle={createLessonToggle} setLessons={props.setLessons} lessons={props.lessons} /> */}
-                <SetFilialModal id={props.application.id}/>
+                {/* <SetFilialModal id={props.application.uuid}/> */}
             </ModalWindow>
+
             <ModalWindow isOpen={createInOneSIsOpen} toggle={createInOneSToggle}>
-                {/* <CreateNewLessonModal toggle={createLessonToggle} setLessons={props.setLessons} lessons={props.lessons} /> */}
             </ModalWindow>
+
             <ModalWindow isOpen={setNumberIsOpen} toggle={setNumberToggle}>
-                {/* <CreateNewLessonModal toggle={createLessonToggle} setLessons={props.setLessons} lessons={props.lessons} /> */}
-                <SetNumberStatusModal id={props.application.id}/>
+                {/* <SetNumberStatusModal id={props.application.uuid}/> */}
             </ModalWindow>
         </div>
     )

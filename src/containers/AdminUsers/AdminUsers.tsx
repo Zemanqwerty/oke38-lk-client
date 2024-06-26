@@ -6,6 +6,14 @@ import { UsersResponse } from "../../models/response/UsersResponse";
 import UsersService from "../../services/UsersService";
 import stepArrow from '../../resources/images/stepArrow.png'
 import reloadImg from '../../resources/images/reload.png'
+import useModal from "../../hooks/useModal";
+import ModalWindow from "../../components/ModalWindow";
+import UserSetRoleModal from "../../components/userSetRoleModal";
+import UserSetNameModal from "../../components/userSetNameModal";
+import UserSetPhoneNumberModal from "../../components/userSetPhoneNumberModal";
+import CreateNewUserModal from "../../components/createNewUserModal";
+import cross from '../../resources/images/cross.png';
+import edit from '../../resources/images/edit.png';
 
 interface UsersProps {
     setActiveBlock: React.Dispatch<React.SetStateAction<React.ReactNode>>;
@@ -14,10 +22,17 @@ interface UsersProps {
 const AdminUsers: FC<UsersProps> = (props: UsersProps) => {
     const {store} = useContext(Context)
 
+    const { isOpen: setRoleIsOpen, toggle: setRoleToggle } = useModal();
+    const { isOpen: setNameIsOpen, toggle: setNameToggle } = useModal();
+    const { isOpen: setPhoneNumberIsOpen, toggle: setPhoneNumberToggle } = useModal();
+    const { isOpen: createNewUserIsOpen, toggle: createNewUserToggle } = useModal();
+
     const [users, setUsers] = useState<UsersResponse[]>([]);
 
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [customPageNumber, setCustomPageNumber] = useState<number>(1);
+
+    const [currentUser, setCurrentUser] = useState<UsersResponse>();
 
     const getAllUsers = async (pageNumber: number) => {
         UsersService.getAllUsers(pageNumber).then((response) => {
@@ -54,6 +69,19 @@ const AdminUsers: FC<UsersProps> = (props: UsersProps) => {
         }
     }
 
+    const setCurrentUserForModal = (userData: UsersResponse, modalToggle: () => void) => {
+        setCurrentUser(userData);
+        modalToggle();
+    }
+
+    const deleteUser = async (userEmail: string) => {
+        await UsersService.deleteUser(userEmail).then((response) => {
+            if (response?.status == 201) {
+               setUsers( users.filter((user) => user.email !== userEmail));
+            }
+        })
+    }
+
     return (
         <div className={styles.applicationsWrapper}>
             <div className={styles.applicationsTitle}>
@@ -78,6 +106,9 @@ const AdminUsers: FC<UsersProps> = (props: UsersProps) => {
                     </div>
                 </div>
             </div>
+            <button className={styles.createNewUserBtn} onClick={() => createNewUserToggle()}>
+                Создать пользователя
+            </button>
             <div className={styles.applicationsBlockWrapper}>
                 <table className={styles.applicationsTable}>
                     <tr>
@@ -114,27 +145,62 @@ const AdminUsers: FC<UsersProps> = (props: UsersProps) => {
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchMaxPower(e.target.value)} value={searchMaxPower}/> */}
                             </div>
                         </th>
+                        <th className={styles.tableTitles}>
+                            Действие
+                        </th>
                     </tr>
                     {users.map((user) => {
                         return (
                             <tr key={user.email} className={styles.applicationBlock}>
                                 <td className={styles.tableFields}>{user.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
                                 <td className={`${styles.tableFields} ${styles.applicationId}`}>{user.email}</td>
-                                <td className={styles.tableFields}>{user.phoneNumber}</td>
-                                <td className={styles.tableFields}>{user.type}</td>
-                                <td className={styles.tableFields}>
-                                    {user.lastname}
-                                    <br />
-                                    {user.firstname}
-                                    <br />
-                                    {user.surname}
+                                <td className={`${styles.tableFields} ${styles.canChange}`} onClick={() => setCurrentUserForModal(user, setPhoneNumberToggle)}>
+                                    <div className={styles.changeble}>
+                                        {user.phoneNumber}
+                                        <img src={edit} alt="Изменить" className={styles.changeImg} />
+                                    </div>
                                 </td>
-                                <td className={styles.tableFields}>{showUserRole(user.roles)}</td>
+                                <td className={styles.tableFields}>{user.type}</td>
+                                <td className={`${styles.tableFields} ${styles.canChange}`} onClick={() => setCurrentUserForModal(user, setNameToggle)}>
+                                    <div className={styles.changeble}>
+                                        <div className={styles.fieldBlock}>
+                                            {user.lastname}
+                                            <br />
+                                            {user.firstname}
+                                            <br />
+                                            {user.surname}
+                                        </div>
+                                        <img src={edit} alt="Изменить" className={styles.changeImg} />
+                                    </div>
+                                </td>
+                                <td className={`${styles.tableFields} ${styles.canChange}`} onClick={() => setCurrentUserForModal(user, setRoleToggle)}>
+                                    <div className={styles.changeble}>
+                                        {showUserRole(user.roles)}
+                                        <img src={edit} alt="Изменить" className={styles.changeImg} />
+                                    </div>
+                                </td>
+                                <td className={styles.tableFields}>
+                                    <div className={styles.imageWrapper}>
+                                        <img src={cross} alt="Удалить" onClick={() => deleteUser(user.email)} />
+                                    </div>
+                                </td>
                             </tr>
                         )
                     })}
                 </table>
             </div>
+            <ModalWindow isOpen={setRoleIsOpen} toggle={setRoleToggle}>
+                <UserSetRoleModal email={currentUser?.email} currentRole={currentUser?.roles}/>
+            </ModalWindow>
+            <ModalWindow isOpen={setNameIsOpen} toggle={setNameToggle}>
+                <UserSetNameModal email={currentUser?.email} currentFirstName={currentUser?.firstname} currentLastName={currentUser?.lastname} cirrentSurname={currentUser?.surname} />
+            </ModalWindow>
+            <ModalWindow isOpen={setPhoneNumberIsOpen} toggle={setPhoneNumberToggle}>
+                <UserSetPhoneNumberModal email={currentUser?.email} currentPhoneNumber={currentUser?.phoneNumber} />
+            </ModalWindow>
+            <ModalWindow isOpen={createNewUserIsOpen} toggle={createNewUserToggle}>
+                <CreateNewUserModal />
+            </ModalWindow>
         </div>
     )
 };

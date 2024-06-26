@@ -17,6 +17,7 @@
     padding: 15px;
     grid-gap: 10px;
     align-items: flex-end;
+    overflow: auto;
 }
 
 .chatSendBlock {
@@ -45,7 +46,14 @@
     color: aliceblue;
 }
 
-.messageBlock {
+.myMessageBlock {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.myMessage {
     width: auto;
     height: auto;
     max-width: 500px;
@@ -54,4 +62,27 @@
     background-color: #b8d1e7;
     border-radius: 9px 9px 0 9px;
     color: black;
+}
+
+.addFilesBtn {
+    width: auto;
+    grid-gap: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(216, 216, 216);
+    cursor: pointer;
+    transition: .3s;
+
+    img {
+        height: 30px;
+    }
+}
+
+.addFilesBtn:hover {
+    background-color: rgb(206, 206, 206);
+    transition: .3s;
 }

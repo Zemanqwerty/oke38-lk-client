@@ -38,7 +38,6 @@ const ClientApplications: FC<ApplicationsProps> = (props: ApplicationsProps) => 
                     <tr>
                         <th className={styles.tableTitles}>Дата подачи</th>
                         <th className={styles.tableTitles}>Номер заявки</th>
-                        <th className={styles.tableTitles}>Населённый пункт / район</th>
                         <th className={styles.tableTitles}>Адрес</th>
                         <th className={styles.tableTitles}>Поставщик</th>
                         <th className={styles.tableTitles}>Максимальная мощность</th>
@@ -48,10 +47,9 @@ const ClientApplications: FC<ApplicationsProps> = (props: ApplicationsProps) => 
                     {applications.map((application) => {
                         if (applications.length !== 0) {
                             return (
-                                <tr key={application.id} className={styles.applicationBlock}>
+                                <tr key={application.uuid} className={styles.applicationBlock}>
                                     <td className={styles.tableFields}>{application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
-                                    <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => props.setActiveBlock(<Application application={application}/>)}>{application.id}</td>
-                                    <td className={styles.tableFields}>{application.city}</td>
+                                    <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => props.setActiveBlock(<Application application={application}/>)}>{application.uuid}</td>
                                     <td className={styles.tableFields}>{application.address}</td>
                                     <td className={styles.tableFields}>{application.provider}</td>
                                     <td className={styles.tableFields}>{application.maxPower}</td>

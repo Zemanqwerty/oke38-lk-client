@@ -31,7 +31,7 @@
 
 
 .filesWrapper {
-    width: 1000px;
+    width: 1400px;
     height: auto;
     padding: 30px 0 0 0;
 }
@@ -40,7 +40,7 @@
     width: auto;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     background-color: rgb(202, 202, 202);
     border-radius: 16px 16px 0 0;
 }
@@ -49,7 +49,8 @@
     width: auto;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
+    background-color: aliceblue;
 }
 
 .fileDataTitle, .fileDataTitleToDo, .fileDataInfo, .fileDataInfoToDo {
@@ -86,4 +87,162 @@
         border-radius: 8px;
         cursor: pointer;
     }
+}
+
+.applicationDataWrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 30px;
+}
+
+.applicationTextDataWrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.DataTitle {
+    width: 1400px;
+    height: auto;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(202, 202, 202);
+    border-radius: 16px 16px 0 0;
+    grid-gap: 30px;
+
+    button {
+        padding: 5px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 7px;
+        background-color: #337ab7;
+        color: aliceblue;
+        cursor: pointer;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}
+
+.applicationTitles {
+    width: 1400px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.title {
+    border: 1px solid rgb(201, 201, 201);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(235, 235, 235);
+}
+
+.applicationInfoText {
+    border: 1px solid rgb(201, 201, 201);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.clientDataWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    grid-gap: 20px;
+}
+
+.clientTitleBlock {
+    p {
+        padding-bottom: 5px;
+        border-bottom: 1px solid grey;
+    }
+}
+
+.clientDataBlock {
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    grid-gap: 3px;
+}
+
+.optionsWrapper {
+    padding-top: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    grid-gap: 10px;
+
+    button {
+        padding: 7px 20px;
+        border: none;
+        background-color: #337ab7;
+        color: rgb(239, 239, 239);
+        border-radius: 7px;
+        cursor: pointer;
+    }
+}
+
+.applicationUuidWrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    grid-gap: 20px;
+    padding-bottom: 40px;
+}
+
+.applicationUuidTitle {
+    p {
+        padding-bottom: 5px;
+        border-bottom: 1px solid grey;
+    }
+}
+
+.applicationMenu {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+
+    p {
+        padding: 10px;
+        border-bottom: 1px solid rgb(185, 185, 185);
+        cursor: pointer;
+        color: #337ab7;
+    }
+
+    p :hover {
+        background-color: rgb(169, 193, 210);
+    }
+}
+
+.currentMenuEl {
+    border-left: 1px solid rgb(185, 185, 185);
+    border-top: 1px solid rgb(185, 185, 185);
+    border-right: 1px solid rgb(185, 185, 185);
+    border-bottom: none !important;
+    border-radius: 8px 8px 0 0;
+    color: black !important;
 }

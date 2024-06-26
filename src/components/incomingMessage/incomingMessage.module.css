@@ -1,0 +1,17 @@
+.InMessageBlock {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.InMessage {
+    width: auto;
+    height: auto;
+    max-width: 500px;
+    min-width: 200px;
+    padding: 5px 10px;
+    background-color: #e7c3b8;
+    border-radius: 9px 9px 0 9px;
+    color: black;
+}

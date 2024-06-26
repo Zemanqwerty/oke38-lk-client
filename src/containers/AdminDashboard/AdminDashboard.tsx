@@ -37,7 +37,7 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
     }, [])
 
     const getApplicationsFromNextPage = () => {
-        getAllApplications(pageNumber + 1)
+        getAllApplications(pageNumber)
         setPageNumber(pageNumber + 1)
     }
 
@@ -91,12 +91,6 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Населённый пункт / район
-                                <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchCity(e.target.value)} value={searchCity}/>
-                            </div>
-                        </th>
-                        <th className={styles.tableTitles}>
-                            <div className={styles.th_wrapper_block}>
                                 Адрес
                                 <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchAddress(e.target.value)} value={searchAddress}/>
                             </div>
@@ -128,10 +122,9 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
                     </tr>
                     {applications.map((application) => {
                         return (
-                            <tr key={application.id} className={styles.applicationBlock}>
+                            <tr key={application.uuid} className={styles.applicationBlock}>
                                 <td className={styles.tableFields}>{application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
-                                <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => props.setActiveBlock(<AdminApplicationView application={application}/>)}>{application.id}</td>
-                                <td className={styles.tableFields}>{application.city}</td>
+                                <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => props.setActiveBlock(<AdminApplicationView application={application}/>)}>{application.uuid}</td>
                                 <td className={styles.tableFields}>{application.address}</td>
                                 <td className={styles.tableFields}>
                                     {application.userLastName}
