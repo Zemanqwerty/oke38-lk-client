@@ -1,6 +1,8 @@
 export interface FilesResponse {
     id: number;
-    fileName: string;
-    filePath: string;
-    fileType: string;
+    doc_file_name: string;
+    doc_file_path: string;
+    doctype: {
+        caption_doctype: string
+    };
 }

@@ -6,6 +6,8 @@ import { FilesResponse } from "../models/response/FilesResponse";
 import { NewApplication } from "../models/requests/NewApplication";
 import { saveAs } from 'file-saver';
 import { EditApplicationData } from "../models/requests/EditApplicationData";
+import { FilialsResponse } from "../models/response/FilialsResponse";
+import { StatusesResponse } from "../models/response/StatusesResponse";
 
 export default class ApplicationsService {
     static async getAllByUser(): Promise<AxiosResponse<ApplicationsResponse[]>> {
@@ -33,7 +35,7 @@ export default class ApplicationsService {
         }
     }
 
-    static async getFilesByApplication(id: number): Promise<AxiosResponse<FilesResponse[]>> {
+    static async getFilesByApplication(id: string): Promise<AxiosResponse<FilesResponse[]>> {
         try {
             const res = await $api.get<FilesResponse[]>(`applications/${id}/files`, {withCredentials: true});
             if (res.status !== 200) {
@@ -56,44 +58,34 @@ export default class ApplicationsService {
         
         // Добавляем данные в FormData
 
+        appendFilesToFormData(formData, '10', application.applicationCopy);
+        appendFilesToFormData(formData, '8', application.passportCopy);
+        appendFilesToFormData(formData, '5', application.planeCopy);
+        appendFilesToFormData(formData, '6', application.ownDocsCopy);
+        appendFilesToFormData(formData, '7', application.powerOfAttorneyCopy);
+        appendFilesToFormData(formData, '9', application.constituentDocsCopy);
+        appendFilesToFormData(formData, '0', application.otherDocs);
+        
+        formData.append('reason', application.reason);
+        formData.append('city', application.city);
+        formData.append('address', application.address);
+        formData.append('maxPower', application.maxPower);
+        formData.append('powerLevel', application.powerLevel);
+        formData.append('paymentsOption', application.paymentsOption);
+        formData.append('provider', application.provider);
+        
         try {
-            // formData.append('applicationCopy', application.applicationCopy[0]);
-            // formData.append('passportCopy', application.passportCopy[0]);
-            // formData.append('planeCopy', application.planeCopy[0]);
-            // formData.append('ownDocsCopy', application.ownDocsCopy[0]);
-            // formData.append('powerOfAttorneyCopy', application.powerOfAttorneyCopy[0]);
-            // formData.append('constituentDocsCopy', application.constituentDocsCopy[0]);
-            // formData.append('otherDocs', application.otherDocs[0]);
-
-            appendFilesToFormData(formData, 'applicationCopy', application.applicationCopy);
-            appendFilesToFormData(formData, 'passportCopy', application.passportCopy);
-            appendFilesToFormData(formData, 'planeCopy', application.planeCopy);
-            appendFilesToFormData(formData, 'ownDocsCopy', application.ownDocsCopy);
-            appendFilesToFormData(formData, 'powerOfAttorneyCopy', application.powerOfAttorneyCopy);
-            appendFilesToFormData(formData, 'constituentDocsCopy', application.constituentDocsCopy);
-            appendFilesToFormData(formData, 'otherDocs', application.otherDocs);
-            
-            formData.append('reason', application.reason);
-            formData.append('city', application.city);
-            formData.append('address', application.address);
-            formData.append('maxPower', application.maxPower);
-            formData.append('powerLevel', application.powerLevel);
-            formData.append('paymentsOption', application.paymentsOption);
-            formData.append('provider', application.provider);
-
-            try {
-                const res = await $api.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
-                if (res.status !== 201) {
-                    throw new Error();
-                }
-                return res;
-            } catch {
-                return await $apiLocalNetwork.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
+            const res = await $api.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
+            if (res.status !== 201) {
+                throw new Error();
             }
-        } catch (e) {
-            console.log(e);
+            return res;
+        } catch {
+            return await $apiLocalNetwork.post(`applications`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
         }
     }
+
+
 
     static async editApplicationData(application: EditApplicationData, id: number): Promise<AxiosResponse | any>{
         try {
@@ -136,19 +128,19 @@ export default class ApplicationsService {
         }
     }
 
-    static async setFilial(id: number, filial: string) {
+    static async setFilial(id: string, filialId: number) {
         try {
-            const res = await $api.post<FilesResponse[]>(`applications/${id}/filial`, {filial}, {withCredentials: true});
+            const res = await $api.post<FilesResponse[]>(`applications/${id}/filial`, {filialId}, {withCredentials: true});
             if (res.status !== 201) {
                 throw new Error();
             }
             return res;
         } catch {
-            return await $apiLocalNetwork.post<FilesResponse[]>(`applications/${id}/filial`, {filial}, {withCredentials: true});
+            return await $apiLocalNetwork.post<FilesResponse[]>(`applications/${id}/filial`, {filialId}, {withCredentials: true});
         }
     }
 
-    static async setNumberStatus(id: number, number: string | undefined, status: string | undefined) {
+    static async setNumberStatus(id: string, number: string | undefined, status: number | undefined) {
         try {
             const res = await $api.post<FilesResponse[]>(`applications/${id}/numberstatus`, {number, status}, {withCredentials: true});
             if (res.status !== 201) {
@@ -157,6 +149,42 @@ export default class ApplicationsService {
             return res;
         } catch {
             return await $apiLocalNetwork.post<FilesResponse[]>(`applications/${id}/numberstatus`, {number, status}, {withCredentials: true});
+        }
+    }
+
+    static async getFilialsForApplication(): Promise<AxiosResponse<FilialsResponse[]>> {
+        try {
+            const res = await $api.get<FilialsResponse[]>(`applications/getFilials`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<FilialsResponse[]>(`applications/getFilials`, {withCredentials: true});
+        }
+    }
+
+    static async getStatusesForApplication(): Promise<AxiosResponse<StatusesResponse[]>> {
+        try {
+            const res = await $api.get<StatusesResponse[]>(`applications/getStatuses`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<StatusesResponse[]>(`applications/getStatuses`, {withCredentials: true});
+        }
+    }
+
+    static async sendApplicationTo1c(applicationUUID: string): Promise<AxiosResponse> {
+        try {
+            const res = await $api.get(`applications/${applicationUUID}/sendTo1c`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get(`applications/${applicationUUID}/sendTo1c`, {withCredentials: true});
         }
     }
 }

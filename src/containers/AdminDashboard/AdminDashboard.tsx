@@ -122,12 +122,13 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
                     </tr>
                     {applications.map((application) => {
                         return (
+                            
                             <tr key={application.uuid} className={styles.applicationBlock}>
                                 <td className={styles.tableFields}>{application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
                                 <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => props.setActiveBlock(<AdminApplicationView application={application}/>)}>{application.uuid}</td>
                                 <td className={styles.tableFields}>{application.address}</td>
                                 <td className={styles.tableFields}>
-                                    {application.userLastName}
+                                    {application.userLastName !== null ? application.userLastName : application.yl_fullname}
                                     <br />
                                     {application.userFirstName}
                                     <br />

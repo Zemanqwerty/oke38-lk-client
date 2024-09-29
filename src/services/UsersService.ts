@@ -27,16 +27,35 @@ export default class UsersService {
         phoneNumber: string,
         password: string
     ) {
-        return await $apiLocalNetwork.post(`users/admin/create`, {
-            type: type,
-            roles: role,
-            lastname: lastname,
-            firstname: firstname,
-            surname: surname,
-            email: email,
-            phoneNumber: phoneNumber,
-            password: password,
-        }, {withCredentials: true});
+        try {
+            const res = await $api.post(`users/admin/create`, {
+                    type: type,
+                    roles: role,
+                    lastname: lastname,
+                    firstname: firstname,
+                    surname: surname,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    password: password,
+                }, {withCredentials: true});
+
+            if (res.status !== 201) {
+                console.log(res);
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.post(`users/admin/create`, {
+                type: type,
+                roles: role,
+                lastname: lastname,
+                firstname: firstname,
+                surname: surname,
+                email: email,
+                phoneNumber: phoneNumber,
+                password: password,
+            }, {withCredentials: true});
+        }
     }
 
     static async deleteUser(userEmail?: string) {

@@ -52,14 +52,18 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
         setCurrentMenuElement(id)
     }
 
-    // useEffect(() => {
-    //     const getFilesByApplicationId = async (id: number) => {
-    //         await ApplicationsService.getFilesByApplication(id).then((response) => {
-    //             setFiles(response.data);
-    //         })
-    //     }
-    //     getFilesByApplicationId(props.application.id);
-    // }, [])
+    const sendApplicationTo1c = () => {
+        return ApplicationsService.sendApplicationTo1c(props.application.uuid);
+    }
+
+    useEffect(() => {
+        const getFilesByApplicationId = async (id: string) => {
+            await ApplicationsService.getFilesByApplication(id).then((response) => {
+                setFiles(response.data);
+            })
+        }
+        getFilesByApplicationId(props.application.uuid);
+    }, [])
 
     return (
         <div className={styles.applicationWrapper}>
@@ -150,14 +154,20 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
                         <p>Вариант оплаты</p>
                     </div>
 
+                    
+
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p></p>
+                        <p>{props.application.vidzayavki}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.userLastName} {props.application.userFirstName} {props.application.userSurname}</p>
+                        <p>{props.application.userLastName !== null ? props.application.userLastName : props.application.yl_fullname}
+                                    <br />
+                                    {props.application.userFirstName}
+                                    <br />
+                                    {props.application.userSurname}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.filial}</p>
@@ -166,19 +176,19 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
                         <p>{props.application.applicationNumber}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p></p>
+                        <p>{props.application.applicationDate?.toString().split('T')[0].replace(/-/g, '.')}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.status}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p></p>
+                        <p>{props.application.ststusoplaty}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.address}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.maxPower}</p>
+                        <p>{props.application.maxPower ? props.application.maxPower.split('.')[0] + '.' + props.application.maxPower.split('.')[1][0] : null}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.powerLevel}</p>
@@ -190,7 +200,7 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
             </div>
             <div className={styles.optionsWrapper}>
                 <button onClick={() => setFilialToggle()}>Закрепить за филиалом</button>
-                <button onClick={() => createInOneSToggle()}>Создать заявку в 1С</button>
+                <button onClick={() => sendApplicationTo1c()}>Создать заявку в 1С</button>
                 <button onClick={() => setNumberToggle()}>Присвоить номер / статус</button>
             </div>
             <div className={styles.applicationDataWrapper}>
@@ -213,14 +223,14 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
             </div>
 
             <ModalWindow isOpen={setFilialIsOpen} toggle={setFilialToggle}>
-                {/* <SetFilialModal id={props.application.uuid}/> */}
+                <SetFilialModal id={props.application.uuid}/>
             </ModalWindow>
 
             <ModalWindow isOpen={createInOneSIsOpen} toggle={createInOneSToggle}>
             </ModalWindow>
 
             <ModalWindow isOpen={setNumberIsOpen} toggle={setNumberToggle}>
-                {/* <SetNumberStatusModal id={props.application.uuid}/> */}
+                <SetNumberStatusModal id={props.application.uuid}/>
             </ModalWindow>
         </div>
     )

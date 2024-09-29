@@ -1,18 +1,35 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from './SetNumberStatusModal.module.css';
 import { observer } from "mobx-react-lite";
 import ApplicationsService from "../../services/ApplicationsService";
+import { StatusesResponse } from "../../models/response/StatusesResponse";
 
 interface applicationData {
-    id: number;
+    id: string;
 }
 
 const SetNumberStatus: FC<applicationData> = (props: applicationData) => {
 
-    const statuses = ['Статус 1', 'Статус 2', 'Статус 3']
-    const [status, setStatus] = useState<string | undefined>(undefined);
-    const [number, setNumber] = useState<string | undefined>(undefined)
+    const [statuses, setStatuses] = useState<StatusesResponse[]>([]);
+    const [status, setStatus] = useState<number | undefined>(undefined);
+    const [number, setNumber] = useState<string | undefined>(undefined);
     const [response, setResponse] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await ApplicationsService.getStatusesForApplication();
+                setStatuses(res.data);
+                if (res.data.length > 0) {
+                    setStatus(res.data[0].id_zayavkastatus);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+    
+        fetchData();
+    }, [])
 
     const setApplicationData = async () => {
         await ApplicationsService.setNumberStatus(props.id, number, status).then((response) => {
@@ -37,7 +54,7 @@ const SetNumberStatus: FC<applicationData> = (props: applicationData) => {
                 </div>
                 <div className={styles.formElement}>
                     <p>Выбрать стутус</p>
-                    <select value={status} onChange={(e) => setStatus(e.target.value)} className={styles.inputFilialData}>
+                    {/* <select value={status} onChange={(e) => setStatus(e.target.value)} className={styles.inputFilialData}>
                         <option value={undefined}>Не выбрано</option>
                         {statuses.map((statusValue) => {
                             return (
@@ -46,7 +63,20 @@ const SetNumberStatus: FC<applicationData> = (props: applicationData) => {
                                 </>
                             )
                         })}
+                    </select> */}
+
+
+                    {statuses.length > 0 ? (
+                    <select value={status} onChange={(e) => setStatus(Number(e.target.value))} className={styles.inputFilialData}>
+                        {statuses.map((statusValue) => {
+                            return (
+                                <option key={statusValue.id_zayavkastatus} value={statusValue.id_zayavkastatus}>{statusValue.caption_zayavkastatus} ({statusValue.caption_zayavkastatus})</option>
+                            )
+                        })}
                     </select>
+                ) : (
+                    <p>Загрузка филиалов...</p>
+                )}
                 </div>
             </div>
             <div className={styles.btnWrapper}>

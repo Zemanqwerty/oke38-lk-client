@@ -9,8 +9,8 @@ import UsersService from "../../services/UsersService";
 
 const RegistrationPage: FC = () => {
 
-  const [type, setType] = useState<string>('Физическое лицо');
-  const [role, setRole] = useState<string>('client')
+  const [type, setType] = useState<string>('физическое лицо');
+  const [role, setRole] = useState<string>('заявитель')
   const [lastname, setLastname] = useState<string>('');
   const [firstname, setFirstname] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
@@ -54,13 +54,13 @@ const RegistrationPage: FC = () => {
                         
                         value={type}/> */}
                     <select value={type} onChange={handleTypeChange} className={styles.inputUserData}>
-                        <option value="Физическое лицо">Физическое лицо</option>
-                        <option value="Юридическое лицо">Юридическое лицо</option>
-                        <option value="Индивидуальный предприниматель">Индивидуальный предприниматель</option>
+                        <option value="физическое лицо">физическое лицо</option>
+                        <option value="юридическое лицо">юридическое лицо</option>
+                        <option value="индивидуальный предприниматель">индивидуальный предприниматель</option>
                     </select>
                     <select value={role} onChange={handleRoleChange} className={styles.inputUserData}>
-                        <option value="client">Заявитель</option>
-                        <option value="admin">Администратор</option>
+                        <option value="заявитель">заявитель</option>
+                        <option value="администратор">администратор</option>
                     </select>
                     <input type="text" className={styles.inputUserData}
                         onChange={e => setLastname(e.target.value)}

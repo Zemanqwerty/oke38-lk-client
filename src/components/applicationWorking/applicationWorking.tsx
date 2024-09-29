@@ -50,15 +50,15 @@ const ApplicationWorking: FC = () => {
                 return (
                     <div className={styles.fileInfoWrapper}>
                         <div className={styles.fileDataInfo}>
-                            {/* {file.fileType} */}
-                            {setFileType(file.fileType)}
+                            {file.doctype.caption_doctype}
+                            {/* {setFileType(file.fileType)} */}
                         </div>
                         <div className={styles.fileDataInfo}>
-                            {file.fileName}
+                            {file.doc_file_name}
                         </div>
                         <div className={styles.fileDataInfoToDo}>
-                            <img src={downloadIcon} alt="Скачать" onClick={() => ApplicationsService.downloadImage(file.filePath, file.fileName)} />
-                            <a href={`${API_URL}/${file.filePath}`}>
+                            <img src={downloadIcon} alt="Скачать" onClick={() => ApplicationsService.downloadImage(file.doc_file_path, file.doc_file_name)} />
+                            <a href={`${API_URL}/${file.doc_file_path}`}>
                                 <img src={showIcon} alt="Показать" />
                             </a>
                         </div>

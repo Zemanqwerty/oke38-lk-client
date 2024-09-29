@@ -55,12 +55,12 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
     }
 
     useEffect(() => {
-        // const getFilesByApplicationId = async (id: number) => {
-        //     await ApplicationsService.getFilesByApplication(id).then((response) => {
-        //         setFiles(response.data);
-        //     })
-        // }
-        // getFilesByApplicationId(props.application.id);
+        const getFilesByApplicationId = async (id: string) => {
+            await ApplicationsService.getFilesByApplication(id).then((response) => {
+                setFiles(response.data);
+            })
+        }
+        getFilesByApplicationId(props.application.uuid);
     }, [])
 
     return (
@@ -157,14 +157,20 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
                         <p>Вариант оплаты</p>
                     </div>
 
+
+
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p></p>
+                        <p>{props.application.vidzayavki}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.userLastName} {props.application.userFirstName} {props.application.userSurname}</p>
+                    <p>{props.application.userLastName !== null ? props.application.userLastName : props.application.yl_fullname}
+                                    <br />
+                                    {props.application.userFirstName}
+                                    <br />
+                                    {props.application.userSurname}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.filial}</p>
@@ -173,13 +179,13 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
                         <p>{props.application.applicationNumber}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p></p>
+                    <p>{props.application.applicationDate?.toString().split('T')[0].replace(/-/g, '.')}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.status}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p></p>
+                        <p>{props.application.ststusoplaty}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.address}</p>

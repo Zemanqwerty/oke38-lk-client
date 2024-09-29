@@ -23,8 +23,10 @@ const MainPage: FC = () => {
         if (!localStorage.getItem('token')) {
             return navigate("/sign-in");
         }
+
+        console.log(store.role);
         
-        if (store.role === 'admin') {
+        if (store.role === 'администратор') {
             setActiveBlock(<AdminDashboard setActiveBlock={setActiveBlock}/>)
         } else {
             setActiveBlock(<ClientApplications setActiveBlock={setActiveBlock}/>);

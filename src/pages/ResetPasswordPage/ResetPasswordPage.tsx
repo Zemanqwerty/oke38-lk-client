@@ -14,14 +14,15 @@ const ResetPasswordPage = () => {
   const navigate = useNavigate();
 
   const [response, setResponse] = useState<string | null>(null);
+  const [exception, setException] = useState<string | null>(null);
 
   const {store} = useContext(Context)
 
   let { link } = useParams();
 
   const resetPassword = () => {
-    if (password !== acceptPassword) {
-        setResponse('Пароли не совпадают');
+    if (password != acceptPassword) {
+        return setException('Пароли не совпадают');
     }
 
     const loginResponse = AuthService.resetPassword(password, link).then((response) => {
@@ -58,6 +59,9 @@ const ResetPasswordPage = () => {
                     <div className={styles.redirectText}>
                         Введите новый пароль
                     </div>
+                </div>
+                <div className={styles.exception}>
+                    {exception == null ? '' : exception}
                 </div>
                 <div className={styles.inputBlock}>
                     <input type="password"  className={styles.inputUserData}

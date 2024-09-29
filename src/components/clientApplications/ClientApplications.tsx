@@ -48,13 +48,13 @@ const ClientApplications: FC<ApplicationsProps> = (props: ApplicationsProps) => 
                         if (applications.length !== 0) {
                             return (
                                 <tr key={application.uuid} className={styles.applicationBlock}>
-                                    <td className={styles.tableFields}>{application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
+                                    <td className={styles.tableFields}>{application.createdAt == null ? '' : application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
                                     <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => props.setActiveBlock(<Application application={application}/>)}>{application.uuid}</td>
-                                    <td className={styles.tableFields}>{application.address}</td>
-                                    <td className={styles.tableFields}>{application.provider}</td>
-                                    <td className={styles.tableFields}>{application.maxPower}</td>
-                                    <td className={styles.tableFields}>{application.powerLevel}</td>
-                                    <td className={styles.tableFields}>{application.status}</td>
+                                    <td className={styles.tableFields}>{application.address == null ? '' : application.address}</td>
+                                    <td className={styles.tableFields}>{application.provider == null ? '' : application.provider}</td>
+                                    <td className={styles.tableFields}>{application.maxPower == null ? '' : application.maxPower}</td>
+                                    <td className={styles.tableFields}>{application.powerLevel  == null ? '' : application.powerLevel}</td>
+                                    <td className={styles.tableFields}>{application.status == null ? '' : application.status}</td>
                                 </tr>
                             )
                         }

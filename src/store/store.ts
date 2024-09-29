@@ -99,6 +99,7 @@ export default class Store {
                 this.setAuth(true);
                 this.setEmail(response.data.email);
                 this.setRole(response.data.role);
+                console.log(response.data);
             })
         } catch (e) {
             console.log('error while set access');

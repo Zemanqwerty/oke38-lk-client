@@ -33,12 +33,12 @@ const SendApplication: FC = () => {
     const [otherDocs, setOtherDocs] = useState<File[]>([]);
     const otherDocsInputRef = useRef<HTMLInputElement>(null);
 
-    const [reason, setReason] = useState<string>('');
+    const [reason, setReason] = useState<string>('увеличение мощности');
     const [city, setCity] = useState<string>('');
     const [address, setAddress] = useState<string>('');
     const [maxPower, setMaxPower] = useState<string>('');
-    const [powerLevel, setPowerLevel] = useState<string>('');
-    const [paymentsOption, setPaymentsOption] = useState<string>('Оплата 100%');
+    const [powerLevel, setPowerLevel] = useState<string>('0');
+    const [paymentsOption, setPaymentsOption] = useState<string>('0');
     const [provider, setProvider] = useState<string>('ООО "Иркутскэнергосбыт"');
 
     const [response, setResponse] = useState<string>('');
@@ -87,18 +87,36 @@ const SendApplication: FC = () => {
 
     const handlePaymentsOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setPaymentsOption(event.target.value);
-      };
+    };
+
+    const handlePowerLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setPowerLevel(event.target.value);
+    };
+
+    const handleReasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setReason(event.target.value);
+    };
 
     return (
         <div className={styles.sendFormWrapper}>
             <div className={styles.applicationForm}>
-                <div className={styles.formInputContainer}>
+                {/* <div className={styles.formInputContainer}>
                     <p className={styles.inputDescriptions}>Причина подачи заявки:*</p>
                     <input type="text"  className={styles.inputUserData}
                         onChange={e => setReason(e.target.value)}
                         placeholder="..."
                     value={reason}/>
+                </div> */}
+
+                <div className={styles.formInputContainer}>
+                    <p className={styles.inputDescriptions}>Причина подачи заявки:*</p>
+                    <select value={reason} onChange={handleReasonChange} className={styles.inputUserData}>
+                        <option value="увеличение мощности">увеличение мощности</option>
+                        <option value="новое технологическое присоединение">новое технологическое присоединение</option>
+                        <option value="временное технологическое присоединение">временное технологическое присоединение</option>
+                    </select>
                 </div>
+
                 <div className={styles.formInputContainer}>
                     <p className={styles.inputDescriptions}>Район (город) расположения энергопринимающего устройства:*</p>
                     <input type="text"  className={styles.inputUserData}
@@ -120,18 +138,25 @@ const SendApplication: FC = () => {
                         placeholder="..."
                     value={maxPower}/>
                 </div>
+
                 <div className={styles.formInputContainer}>
                     <p className={styles.inputDescriptions}>Уровень напряжения:*</p>
-                    <input type="text"  className={styles.inputUserData}
-                        onChange={e => setPowerLevel(e.target.value)}
-                        placeholder="..."
-                    value={powerLevel}/>
+                    <select value={powerLevel} onChange={handlePowerLevelChange} className={styles.inputUserData}>
+                        <option value="0">0.22 кВ</option>
+                        <option value="5">35 кВ</option>
+                        <option value="3">6 кВ</option>
+                        <option value="6">110 кВ</option>
+                        <option value="4">10 кВ</option>
+                        <option value="1">0.4 кВ</option>
+                        <option value="2">1 кВ</option>
+                    </select>
                 </div>
+
                 <div className={styles.formInputContainer}>
                     <p className={styles.inputDescriptions}>Вариант оплаты:*</p>
                     <select value={paymentsOption} onChange={handlePaymentsOptionChange} className={styles.inputUserData}>
-                        <option value="Оплата 100%">Оплата 100%</option>
-                        <option value="Оплата 10% после подписания Договора и 90% после подписания Акта ТП">Оплата 10% после подписания Договора и 90% после подписания Акта ТП</option>
+                        <option value="0">Оплата 100%</option>
+                        <option value="1">Оплата 10% после подписания Договора и 90% после подписания Акта ТП</option>
                     </select>
                 </div>
                 <div className={styles.formInputContainer}>

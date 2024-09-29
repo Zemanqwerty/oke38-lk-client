@@ -17,4 +17,10 @@ export interface ApplicationsResponse {
     userType?: string;
     filial?: string | null;
     applicationNumber?: string | null;
+    applicationDate?: Date | null;
+    yl_fullname: string | null;
+    yl_shortname: string | null;
+    contact_familiya: string| null;
+    vidzayavki: string | null;
+    ststusoplaty: string | null;
 }

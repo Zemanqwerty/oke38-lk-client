@@ -59,15 +59,15 @@ const AdminUsers: FC<UsersProps> = (props: UsersProps) => {
         setPageNumber(pageNumber - 1)
     }
 
-    const showUserRole = (role: string) => {
-        switch (role) {
-            case 'admin':
-                return 'Администратор'
+    // const showUserRole = (role: string) => {
+    //     switch (role) {
+    //         case 'admin':
+    //             return 'Администратор'
             
-            case 'client':
-                return 'Заявитель'
-        }
-    }
+    //         case 'client':
+    //             return 'Заявитель'
+    //     }
+    // }
 
     const setCurrentUserForModal = (userData: UsersResponse, modalToggle: () => void) => {
         setCurrentUser(userData);
@@ -152,7 +152,13 @@ const AdminUsers: FC<UsersProps> = (props: UsersProps) => {
                     {users.map((user) => {
                         return (
                             <tr key={user.email} className={styles.applicationBlock}>
-                                <td className={styles.tableFields}>{user.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
+                                <td className={styles.tableFields}>
+                                    {  
+                                        user.createdAt !== null
+                                        ? user.createdAt.toString().split('T')[0].replace(/-/g, ".")
+                                        : ''
+                                    }
+                                </td>
                                 <td className={`${styles.tableFields} ${styles.applicationId}`}>{user.email}</td>
                                 <td className={`${styles.tableFields} ${styles.canChange}`} onClick={() => setCurrentUserForModal(user, setPhoneNumberToggle)}>
                                     <div className={styles.changeble}>
@@ -175,7 +181,8 @@ const AdminUsers: FC<UsersProps> = (props: UsersProps) => {
                                 </td>
                                 <td className={`${styles.tableFields} ${styles.canChange}`} onClick={() => setCurrentUserForModal(user, setRoleToggle)}>
                                     <div className={styles.changeble}>
-                                        {showUserRole(user.roles)}
+                                        {/* {showUserRole(user.roles)} */}
+                                        {user.roles}
                                         <img src={edit} alt="Изменить" className={styles.changeImg} />
                                     </div>
                                 </td>
