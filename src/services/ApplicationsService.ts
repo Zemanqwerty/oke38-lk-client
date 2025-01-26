@@ -8,6 +8,7 @@ import { saveAs } from 'file-saver';
 import { EditApplicationData } from "../models/requests/EditApplicationData";
 import { FilialsResponse } from "../models/response/FilialsResponse";
 import { StatusesResponse } from "../models/response/StatusesResponse";
+import { DogovorEnergoResponse } from "../models/response/DogovorEnergoResponse";
 
 export default class ApplicationsService {
     static async getAllByUser(): Promise<AxiosResponse<ApplicationsResponse[]>> {
@@ -140,9 +141,9 @@ export default class ApplicationsService {
         }
     }
 
-    static async setNumberStatus(id: string, number: string | undefined, status: number | undefined) {
+    static async setNumberStatus(id: string, number: string | undefined, status: number | undefined, date: Date | undefined) {
         try {
-            const res = await $api.post<FilesResponse[]>(`applications/${id}/numberstatus`, {number, status}, {withCredentials: true});
+            const res = await $api.post<FilesResponse[]>(`applications/${id}/numberstatus`, {number, status, date}, {withCredentials: true});
             if (res.status !== 201) {
                 throw new Error();
             }
@@ -185,6 +186,18 @@ export default class ApplicationsService {
             return res;
         } catch {
             return await $apiLocalNetwork.get(`applications/${applicationUUID}/sendTo1c`, {withCredentials: true});
+        }
+    }
+
+    static async getAllDogovorEnergo(pageNumber: number): Promise<AxiosResponse<DogovorEnergoResponse[]>> {
+        try {
+            const res = await $api.get<DogovorEnergoResponse[]>(`applications/dogovorenergo/?page=${pageNumber}`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<DogovorEnergoResponse[]>(`applications/dogovorenergo/?page=${pageNumber}`, {withCredentials: true});
         }
     }
 }

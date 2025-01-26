@@ -11,6 +11,7 @@ import ApplicationsService from "../../services/ApplicationsService";
 import { ApplicationsResponse } from "../../models/response/ApplicationsResponse";
 import AdminDashboard from "../../containers/AdminDashboard";
 import AdminUsers from "../../containers/AdminUsers";
+import AdminDogovorenergo from "../../components/adminDogovorenergo";
 
 const MainPage: FC = () => {
     const navigate = useNavigate();
@@ -44,6 +45,7 @@ const MainPage: FC = () => {
                         <div className={styles.lkApplicationsNav}>
                             <button className={styles.lkApplicationsNavBtn} onClick={() => setActiveBlock(<AdminDashboard setActiveBlock={setActiveBlock}/>)}>Все заявки</button>
                             <button className={styles.lkApplicationsNavBtn} onClick={() => setActiveBlock(<AdminUsers setActiveBlock={setActiveBlock}/>)}>Пользователи</button>
+                            <button className={styles.lkApplicationsNavBtn} onClick={() => setActiveBlock(<AdminDogovorenergo setActiveBlock={setActiveBlock}/>)}>Договоры энергоснабжения</button>
                         </div>
                         {/* <div className="">
                             <button className={styles.lkNavInfoBtn}>Справка</button>

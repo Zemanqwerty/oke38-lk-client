@@ -9,4 +9,6 @@ export interface UsersResponse {
     roles: string;
     createdAt: Date;
     updatedAt: Date;
+    yl_fullname: string | null;
+    yl_shortname: string | null;
 }

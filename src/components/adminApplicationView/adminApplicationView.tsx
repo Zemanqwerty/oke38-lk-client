@@ -43,7 +43,7 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
       { title: 'Договор ТП', body: <ApplicationContractData /> },
       { title: 'Счет (оплата)', body: <ApplicationBillPaying /> },
       { title: 'Договор Энергоснабжения', body: <ApplicationEnergiContract /> },
-    //   { title: 'Переписка', body: <ApplicationChating id={props.application.uuid}/> },
+      { title: 'Переписка', body: <ApplicationChating id={props.application.uuid}/> },
     ];
 
     const [currentMenuElement, setCurrentMenuElement] = useState<number>(0);
@@ -167,7 +167,7 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
                                     <br />
                                     {props.application.userFirstName}
                                     <br />
-                                    {props.application.userSurname}</p>
+                            {props.application.userSurname}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
                         <p>{props.application.filial}</p>

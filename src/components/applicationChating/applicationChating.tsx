@@ -1,8 +1,8 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import styles from './applicationChating.module.css';
 import { io, Socket } from "socket.io-client";
-// import $api, { API_URL } from "../../http";
-import { API_URL } from "../../httpLocalNetwork";
+import $api, { API_URL } from "../../http";
+// import { API_URL } from "../../httpLocalNetwork"; 
 import { Context } from "../..";
 import MyMessage from "../myMessage";
 import IncomingMessage from "../incomingMessage";
@@ -11,7 +11,7 @@ import { Message } from "../../models/response/MessageResponse";
 import addFile from '../../resources/images/add_file.png'
 
 interface ApplicationId {
-    id: number;
+    id: string;
 }
 
 const ApplicationChating: FC<ApplicationId> = (props: ApplicationId) => {
@@ -121,7 +121,7 @@ const ApplicationChating: FC<ApplicationId> = (props: ApplicationId) => {
                 ))}
             </div>
             <form className={styles.chatSendBlock}>
-                {store.role === 'admin'
+                {store.role === 'администратор'
                 ? <textarea
                   className={styles.chatingTextareaInput}
                   placeholder="Введите текст сообщения..."

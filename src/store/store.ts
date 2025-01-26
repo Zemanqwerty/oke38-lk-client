@@ -60,16 +60,38 @@ export default class Store {
         }
     }
 
-    async registration(type: string,
+    async registration(
+        type: string,
         lastname: string,
         firstname: string,
         surname: string,
         email: string,
         phoneNumber: string,
-        password: string)
+        password: string,
+        fullName: string,
+        shortName: string,
+        inn: string,
+        contactFirstname: string,
+        contactLastname: string,
+        contactSurname: string
+    )
     {
         try {
-            const response = await AuthService.registration(type, lastname, firstname, surname, email, phoneNumber, password);
+            const response = await AuthService.registration(
+                type,
+                lastname,
+                firstname,
+                surname,
+                email,
+                phoneNumber,
+                password,
+                fullName,
+                shortName,
+                inn,
+                contactFirstname,
+                contactLastname,
+                contactSurname
+              );
         } catch (e) {
             console.log(e);
         }

@@ -37,7 +37,7 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
     }, [])
 
     const getApplicationsFromNextPage = () => {
-        getAllApplications(pageNumber)
+        getAllApplications(pageNumber + 1)
         setPageNumber(pageNumber + 1)
     }
 

@@ -16,16 +16,39 @@ export default class AuthService {
         }
     }
 
-    static async registration(type: string,
-                                lastname: string,
-                                firstname: string,
-                                surname: string,
-                                email: string,
-                                phoneNumber: string,
-                                password: string): Promise<AxiosResponse<AuthResponse>> 
+    static async registration(
+        type: string,
+        lastname: string,
+        firstname: string,
+        surname: string,
+        email: string,
+        phoneNumber: string,
+        password: string,
+        yl_fullname: string,
+        yl_shortname: string,
+        inn: string,
+        contact_name: string,
+        contact_familiya: string,
+        contact_otchestvo: string
+
+    ): Promise<AxiosResponse<AuthResponse>> 
     {
         try {
-            const res = await $api.post<AuthResponse>('users/sign-up', {type, lastname, firstname, surname, email, phoneNumber, password});
+            const res = await $api.post<AuthResponse>('users/sign-up', {
+                type,
+                lastname,
+                firstname,
+                surname,
+                email,
+                phoneNumber,
+                password,
+                yl_fullname,
+                yl_shortname,
+                inn,
+                contact_name,
+                contact_familiya,
+                contact_otchestvo    
+            });
             if (res.status !== 201) {
                 throw new Error();
             }

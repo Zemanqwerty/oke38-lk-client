@@ -8,6 +8,11 @@
     padding: 40px 0px;
 }
 
+.error {
+    box-shadow: 0 0 8px rgb(253, 24, 24);
+    transition: .3s;
+}
+
 .pageData {
     width: 500px;
     height: auto;

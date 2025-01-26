@@ -41,7 +41,7 @@ const SendApplication: FC = () => {
     const [paymentsOption, setPaymentsOption] = useState<string>('0');
     const [provider, setProvider] = useState<string>('ООО "Иркутскэнергосбыт"');
 
-    const [response, setResponse] = useState<string>('');
+    const [[responseText, responseStatus], setResponse] = useState<[string, number]>(['', 0]);
 
     const sendApplication = () => {
         const application = new SendApplicationModel(
@@ -63,9 +63,9 @@ const SendApplication: FC = () => {
 
         ApplicationsService.sendApplication(application).then((response) => {
             if (response?.status === 201) {
-                setResponse('Вы успешно подали заявку! Отслеживать её статус вы можете в личном кабинете.');
+                setResponse(['Вы успешно подали заявку! Отслеживать её статус вы можете в личном кабинете.', response?.status]);
             } else {
-                setResponse('Что-то пошло не так...');
+                setResponse(['Что-то пошло не так...', response?.status]);
             }
         })
     }
@@ -342,8 +342,10 @@ const SendApplication: FC = () => {
                         })}
                     </div>
                 </div>
-                {response}
-                <button onClick={sendApplication} className={styles.sendApplicationBtn}>Отправить</button>
+                {responseText}
+                {responseStatus !== 201 && (
+                    <button onClick={sendApplication} className={styles.sendApplicationBtn}>Отправить</button>
+                )}
             </div>
         </div>
     )

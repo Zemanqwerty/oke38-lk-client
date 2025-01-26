@@ -45,7 +45,7 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
       { title: 'Договор ТП', body: <ApplicationContractData /> },
       { title: 'Счет (оплата)', body: <ApplicationBillPaying /> },
       { title: 'Договор Энергоснабжения', body: <ApplicationEnergiContract /> },
-    //   { title: 'Переписка', body: <ApplicationChating id={props.application.id}/> },
+      { title: 'Переписка', body: <ApplicationChating id={props.application.uuid}/> },
     ];
 
     const [currentMenuElement, setCurrentMenuElement] = useState<number>(0);

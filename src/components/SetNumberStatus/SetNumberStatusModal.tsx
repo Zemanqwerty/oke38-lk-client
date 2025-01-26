@@ -13,6 +13,7 @@ const SetNumberStatus: FC<applicationData> = (props: applicationData) => {
     const [statuses, setStatuses] = useState<StatusesResponse[]>([]);
     const [status, setStatus] = useState<number | undefined>(undefined);
     const [number, setNumber] = useState<string | undefined>(undefined);
+    const [date, setDate] = useState<Date | undefined>(undefined);
     const [response, setResponse] = useState<string | null>(null);
 
     useEffect(() => {
@@ -32,7 +33,7 @@ const SetNumberStatus: FC<applicationData> = (props: applicationData) => {
     }, [])
 
     const setApplicationData = async () => {
-        await ApplicationsService.setNumberStatus(props.id, number, status).then((response) => {
+        await ApplicationsService.setNumberStatus(props.id, number, status, date).then((response) => {
             if (response.status === 201) {
                 setResponse('Информация успешно сохранена')
             } else {
@@ -44,7 +45,7 @@ const SetNumberStatus: FC<applicationData> = (props: applicationData) => {
     return (
         <div className={styles.content}>
             <div className={styles.modalTitleWrapper}>
-                <h2>Задать статус / номер</h2>
+                <h2>Задать номер / статус / дату</h2>
             </div>
             <div className={styles.formWrapper}>
                 <p>{response}</p>
@@ -75,8 +76,21 @@ const SetNumberStatus: FC<applicationData> = (props: applicationData) => {
                         })}
                     </select>
                 ) : (
-                    <p>Загрузка филиалов...</p>
+                    <p>Загрузка...</p>
                 )}
+                </div>
+                <div className={styles.formElement}>
+                    <p>Дата заявки (присв.)</p>
+                    <input
+                        type="date"
+                        placeholder=""
+                        className={styles.inputFilialData}
+                        onChange={(e) => {
+                        const dateString = e.target.value; // Получаем строку из input
+                        const dateObject = new Date(dateString); // Преобразуем строку в Date
+                        setDate(dateObject); // Обновляем стейт
+                        }}
+                    />
                 </div>
             </div>
             <div className={styles.btnWrapper}>
