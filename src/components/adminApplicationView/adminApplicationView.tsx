@@ -19,51 +19,89 @@ import ApplicationContractData from "../applicationContractData";
 import ApplicationBillPaying from "../applicationBillPaying";
 import ApplicationEnergiContract from "../applicationEnergiContract";
 import ApplicationChating from "../applicationChating";
+import { useParams } from "react-router-dom";
 
-interface ApplicationProps {
-    application: ApplicationsResponse;
-}
+// interface ApplicationProps {
+//     application: ApplicationsResponse;
+// }
 
-const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => {
-    const {store} = useContext(Context);
+// const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => {
+const AdminApplicationView: FC = () => {
+
+    const { id } = useParams<{ id: string }>();
+
+    const [application, setApplication] = useState<ApplicationsResponse | null>(null)
     const [files, setFiles] = useState<FilesResponse[]>([]);
+    const [workingFiles, setWorkingFiles] = useState<FilesResponse[]>([]);
 
     const { isOpen: setFilialIsOpen, toggle: setFilialToggle } = useModal();
     const { isOpen: createInOneSIsOpen, toggle: createInOneSToggle } = useModal();
     const { isOpen: setNumberIsOpen, toggle: setNumberToggle } = useModal();
 
+    const [currentMenuElement, setCurrentMenuElement] = useState<number>(0);
+
+    useEffect(() => {
+        setApplication(null); // Сбрасываем состояние application
+        const getApplicationById = async (id: string | undefined) => {
+            if (id) {
+                ApplicationsService.getById(id).then((response) => {
+                    if (response.status === 200) {
+                        setApplication(response.data);
+                    }
+                });
+            }
+        }
+
+        const getFilesByApplicationId = async (id: string | undefined) => {
+            if (id) {
+                await ApplicationsService.getFilesByApplication(id).then((response) => {
+                    setFiles(response.data);
+                })
+            }
+        }
+
+        const getWorkingFilesByApplicationId = async (id: string | undefined) => {
+            if (id) {
+                await ApplicationsService.getApplicationWorkingFiles(id).then((response) => {
+                    setWorkingFiles(response.data);
+                })
+            }
+        }
+
+        getApplicationById(id)
+        getFilesByApplicationId(id);
+        getWorkingFilesByApplicationId(id);
+    }, [id])
+
+    if (!application) {
+        return <div>Загрузка данных о заявке...</div>;
+    }
+
     interface MenuElement {
         title: string;
         body: React.ReactNode;
     }
+
+    if (!id) {
+        return <div>Заявка не найдена</div>
+    }
     
     const menuElements: MenuElement[] = [
-      { title: 'Заявка (черновик)', body: <ApplicationDraft files={files} application={props.application} setFiles={setFiles}/> },
-      { title: 'Заявка (рабочая)', body: <ApplicationWorking /> },
-      { title: 'Договор ТП', body: <ApplicationContractData /> },
+      { title: 'Заявка (черновик)', body: <ApplicationDraft files={files} application={application} setFiles={setFiles}/> },
+      { title: 'Заявка (рабочая)', body: <ApplicationWorking files={workingFiles}/> },
+      { title: 'Договор ТП', body: <ApplicationContractData id={id}/> },
       { title: 'Счет (оплата)', body: <ApplicationBillPaying /> },
-      { title: 'Договор Энергоснабжения', body: <ApplicationEnergiContract /> },
-      { title: 'Переписка', body: <ApplicationChating id={props.application.uuid}/> },
+      { title: 'Договор Энергоснабжения', body: <ApplicationEnergiContract id={id} /> },
+      { title: 'Переписка', body: <ApplicationChating id={application.uuid}/> },
     ];
-
-    const [currentMenuElement, setCurrentMenuElement] = useState<number>(0);
 
     const handleMenuElementClick = (id: number) => {
         setCurrentMenuElement(id)
     }
 
     const sendApplicationTo1c = () => {
-        return ApplicationsService.sendApplicationTo1c(props.application.uuid);
+        return ApplicationsService.sendApplicationTo1c(application.uuid);
     }
-
-    useEffect(() => {
-        const getFilesByApplicationId = async (id: string) => {
-            await ApplicationsService.getFilesByApplication(id).then((response) => {
-                setFiles(response.data);
-            })
-        }
-        getFilesByApplicationId(props.application.uuid);
-    }, [])
 
     return (
         <div className={styles.applicationWrapper}>
@@ -98,7 +136,7 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
                     <p>Идентификатор заявки</p>
                 </div>
                 <div className="">
-                    <p>{props.application.uuid}</p>
+                    <p>{application.uuid}</p>
                 </div>
             </div>
             <div className={styles.clientDataWrapper}>
@@ -106,10 +144,10 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
                     <p>Информация о заявителе (контактном лице)</p>
                 </div>
                 <div className={styles.clientDataBlock}>
-                    <p>{props.application.userLastName} {props.application.userFirstName} {props.application.userSurname}</p>
-                    <p>{props.application.userType}</p>
-                    <p>{props.application.userPhoneNumber}</p>
-                    <p>{props.application.userEmail}</p>
+                    <p>{application.userLastName} {application.userFirstName} {application.userSurname}</p>
+                    <p>{application.userType}</p>
+                    <p>{application.userPhoneNumber}</p>
+                    <p>{application.userEmail}</p>
                 </div>
             </div>
             <div className={styles.applicationTextDataWrapper}>
@@ -157,44 +195,44 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
                     
 
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</p>
+                        <p>{application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.vidzayavki}</p>
+                        <p>{application.vidzayavki}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.userLastName !== null ? props.application.userLastName : props.application.yl_fullname}
+                        <p>{application.userLastName !== null ? application.userLastName : application.yl_fullname}
                                     <br />
-                                    {props.application.userFirstName}
+                                    {application.userFirstName}
                                     <br />
-                            {props.application.userSurname}</p>
+                            {application.userSurname}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.filial}</p>
+                        <p>{application.filial}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.applicationNumber}</p>
+                        <p>{application.applicationNumber}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.applicationDate?.toString().split('T')[0].replace(/-/g, '.')}</p>
+                        <p>{application.applicationDate?.toString().split('T')[0].replace(/-/g, '.')}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.status}</p>
+                        <p>{application.status}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.ststusoplaty}</p>
+                        <p>{application.ststusoplaty}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.address}</p>
+                        <p>{application.address}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.maxPower ? props.application.maxPower.split('.')[0] + '.' + props.application.maxPower.split('.')[1][0] : null}</p>
+                        <p>{application.maxPower ? application.maxPower.split('.')[0] + '.' + application.maxPower.split('.')[1][0] : null}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.powerLevel}</p>
+                        <p>{application.powerLevel}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.paymentOption === 'Оплата 100%' ? '100%' : '10% / 90%'}</p>
+                        <p>{application.paymentOption === 'Оплата 100%' ? '100%' : '10% / 90%'}</p>
                     </div>
                 </div>
             </div>
@@ -223,14 +261,14 @@ const AdminApplicationView: FC<ApplicationProps> = (props: ApplicationProps) => 
             </div>
 
             <ModalWindow isOpen={setFilialIsOpen} toggle={setFilialToggle}>
-                <SetFilialModal id={props.application.uuid}/>
+                <SetFilialModal id={application.uuid}/>
             </ModalWindow>
 
             <ModalWindow isOpen={createInOneSIsOpen} toggle={createInOneSToggle}>
             </ModalWindow>
 
             <ModalWindow isOpen={setNumberIsOpen} toggle={setNumberToggle}>
-                <SetNumberStatusModal id={props.application.uuid}/>
+                <SetNumberStatusModal id={application.uuid}/>
             </ModalWindow>
         </div>
     )

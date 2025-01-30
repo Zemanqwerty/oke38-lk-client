@@ -9,6 +9,8 @@ import { EditApplicationData } from "../models/requests/EditApplicationData";
 import { FilialsResponse } from "../models/response/FilialsResponse";
 import { StatusesResponse } from "../models/response/StatusesResponse";
 import { DogovorEnergoResponse } from "../models/response/DogovorEnergoResponse";
+import { ContractResponse } from "../models/response/ContractResponse";
+import { ContractDocsResponse } from "../models/response/ContractDocsResponse";
 
 export default class ApplicationsService {
     static async getAllByUser(): Promise<AxiosResponse<ApplicationsResponse[]>> {
@@ -36,6 +38,18 @@ export default class ApplicationsService {
         }
     }
 
+    static async getById(id: string): Promise<AxiosResponse<ApplicationsResponse>> {
+        try {
+            const res = await $api.get<ApplicationsResponse>(`applications/application/${id}`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<ApplicationsResponse>(`applications/application/${id}`, {withCredentials: true});
+        }
+    }
+
     static async getFilesByApplication(id: string): Promise<AxiosResponse<FilesResponse[]>> {
         try {
             const res = await $api.get<FilesResponse[]>(`applications/${id}/files`, {withCredentials: true});
@@ -45,6 +59,41 @@ export default class ApplicationsService {
             return res;
         } catch {
             return await $apiLocalNetwork.get<FilesResponse[]>(`applications/${id}/files`, {withCredentials: true});
+        }
+    }
+
+    static async getDogovorFilesByApplication(id: string): Promise<AxiosResponse<ContractDocsResponse[]>> {
+        try {
+            const res = await $api.get<ContractDocsResponse[]>(`applications/dogovorenergo/${id}/files`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<ContractDocsResponse[]>(`applications/dogovorenergo/${id}/files`, {withCredentials: true});
+        }
+    }
+
+    static async setDogovorFiles(id: string, paymentFile: File | undefined, dogovorFile: File | undefined) {
+        const formData = new FormData();
+
+        function appendFilesToFormData(formData: FormData, fieldName: string, file: File): void {
+            formData.append(`${fieldName}`, file);
+        }
+        
+        // Добавляем данные в FormData
+
+        paymentFile ? appendFilesToFormData(formData, 'paymentFile', paymentFile) : console.log('');
+        dogovorFile ? appendFilesToFormData(formData, 'dogovorFile', dogovorFile) : console.log('');
+        
+        try {
+            const res = await $api.post(`applications/dogovorenergo/${id}/setfiles`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
+            if (res.status !== 201) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.post(`applications/dogovorenergo/${id}/setfiles`, formData, {headers: {"content-type": "multipart/form-data"}, withCredentials: true});
         }
     }
 
@@ -198,6 +247,54 @@ export default class ApplicationsService {
             return res;
         } catch {
             return await $apiLocalNetwork.get<DogovorEnergoResponse[]>(`applications/dogovorenergo/?page=${pageNumber}`, {withCredentials: true});
+        }
+    }
+
+    static async getDogovorEnergoByApplicationId(id: string): Promise<AxiosResponse<DogovorEnergoResponse>> {
+        try {
+            const res = await $api.get<DogovorEnergoResponse>(`applications/dogovorenergo/${id}`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<DogovorEnergoResponse>(`applications/dogovorenergo/${id}`, {withCredentials: true});
+        }
+    }
+
+    static async getContractDataByApplicationId(id: string): Promise<AxiosResponse<ContractResponse>> {
+        try {
+            const res = await $api.get<ContractResponse>(`applications/contract/${id}`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<ContractResponse>(`applications/contract/${id}`, {withCredentials: true});
+        }
+    }
+
+    static async setDogovorEnergoData(applicationId: string, nomerLS: string | undefined, dogovorNumber: string | undefined, epuNumber: string | undefined, dateOfCreateDogovor: string | undefined) {
+        try {
+            const res = await $api.post<AxiosResponse>(`applications/dogovorenergo/${applicationId}/edit`, {nomerLS, dogovorNumber, epuNumber, dateOfCreateDogovor}, {withCredentials: true});
+            if (res.status !== 201) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.post<AxiosResponse>(`applications/dogovorenergo/${applicationId}/edit`, {nomerLS, dogovorNumber, epuNumber, dateOfCreateDogovor}, {withCredentials: true});
+        }
+    }
+
+    static async getApplicationWorkingFiles(applicationUuid: string): Promise<AxiosResponse<FilesResponse[]>> {
+        try {
+            const res = await $api.get<FilesResponse[]>(`applications/${applicationUuid}/workingFiles`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<FilesResponse[]>(`applications/${applicationUuid}/workingFiles`, {withCredentials: true});
         }
     }
 }

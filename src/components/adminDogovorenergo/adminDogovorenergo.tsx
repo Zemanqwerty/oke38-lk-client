@@ -16,12 +16,16 @@ import cross from '../../resources/images/cross.png';
 import edit from '../../resources/images/edit.png';
 import ApplicationsService from "../../services/ApplicationsService";
 import { DogovorEnergoResponse } from "../../models/response/DogovorEnergoResponse";
+import { useNavigate } from "react-router";
 
-interface Dogovorenergo {
-    setActiveBlock: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-}
+// interface Dogovorenergo {
+//     setActiveBlock: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+// }
 
-const AdminDogovorenergo: FC<Dogovorenergo> = (props: Dogovorenergo) => {
+// const AdminDogovorenergo: FC<Dogovorenergo> = (props: Dogovorenergo) => {
+const AdminDogovorenergo: FC = () => {
+
+    const navigate = useNavigate();
 
     const [dogovorEnergoList, setDogovorEnergoList] = useState<DogovorEnergoResponse[]>([]);
 
@@ -52,6 +56,10 @@ const AdminDogovorenergo: FC<Dogovorenergo> = (props: Dogovorenergo) => {
     const getUsersFromPrevPage = () => {
         getAllDogovorEnergo(pageNumber - 1)
         setPageNumber(pageNumber - 1)
+    }
+
+    const editClickHandler = (id: string) => {
+        navigate(`/application/${id}/dogovorenergo`);
     }
 
     // const showUserRole = (role: string) => {
@@ -167,7 +175,7 @@ const AdminDogovorenergo: FC<Dogovorenergo> = (props: Dogovorenergo) => {
                                         : ''
                                     }
                                 </td>
-                                <td className={`${styles.tableFields} ${styles.applicationId}`}>
+                                <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => {editClickHandler(dogovor.applicationId)}}>
                                     {
                                         dogovor.user.firstname
                                         ? <>

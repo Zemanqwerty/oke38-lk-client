@@ -1,12 +1,45 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from './applicationContractData.module.css'
 import { FilesResponse } from "../../models/response/FilesResponse";
 import ApplicationsService from "../../services/ApplicationsService";
 import downloadIcon from '../../resources/images/download_icon.png';
 import showIcon from '../../resources/images/show_icon.png';
 import { API_URL } from "../../http";
+import { ContractResponse } from "../../models/response/ContractResponse";
+import { useNavigate } from "react-router-dom";
 
-const ApplicationContractData: FC = () => {
+interface ContractData {
+    id: string;
+}
+
+const ApplicationContractData: FC<ContractData> = (props: ContractData) => {
+
+    const [contract, setContract] = useState<ContractResponse>();
+    
+        const navigate = useNavigate()
+    
+        useEffect(() => {
+            const getContract = async (id: string) => {
+                await ApplicationsService.getContractDataByApplicationId(id).then((response) => {
+                    if (response?.status == 200) {
+                        setContract(response.data)
+                    }
+                })
+            }
+    
+            getContract(props.id)
+        }, [props.id])
+    
+        if (!props.id) {
+            return (
+                <></>
+            )
+        }
+    
+        const editClickHandler = () => {
+            navigate(`/application/${props.id}/dogovorenergo`);
+        }
+
     return (
         <div className={styles.applicationContractDataWrapper}>
             <div className={styles.applicationTextDataWrapper}>
@@ -22,6 +55,19 @@ const ApplicationContractData: FC = () => {
                     </div>
                     <div className={styles.title}>
                         <p>Статус договора</p>
+                    </div>
+                    
+                    <div className=""></div>
+                </div>
+                <div className={styles.applicationTitles}>
+                    <div className={styles.titleB}>
+                        <p>{contract?.contractNumber}</p>
+                    </div>
+                    <div className={styles.titleB}>
+                        <p>{contract?.contractDate ? contract?.contractDate.toString().split('T')[0] : null}</p>
+                    </div>
+                    <div className={styles.titleB}>
+                        <p>{contract?.contractStatus}</p>
                     </div>
                     
                     <div className=""></div>

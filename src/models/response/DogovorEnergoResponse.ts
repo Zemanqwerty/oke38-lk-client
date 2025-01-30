@@ -11,4 +11,5 @@ export interface DogovorEnergoResponse {
     dogovorNumber: string;
     schetNumber: string;
     epuNumber: string;
+    applicationId: string;
 }

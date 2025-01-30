@@ -21,13 +21,13 @@
     background-color: aliceblue;
 }
 
-.fileDataTitle, .fileDataTitleToDo, .fileDataInfo, .fileDataInfoToDo {
-    width: 450px;
-    height: 50px;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+.sendMessageBtn {
+    padding: 5px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 7px;
+    background-color: #337ab7;
+    color: aliceblue;
 }
 
 .fileDataInfo {
@@ -40,12 +40,24 @@
     width: 100px;
 }
 
-.fileDataInfoToDo {
-    width: 100px;
-    background-color: aliceblue;
+/* .fileDataTitle, .fileDataTitleToDo, .fileDataInfo, .fileDataInfoToDo {
+    height: 50px;
+    padding: 15px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+} */
+
+
+.fileDataInfoToDo {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    padding: 15px;
+    grid-gap: 25px;
+    border: 1px solid rgb(201, 201, 201);
 
     img {
         width: 30px;
@@ -56,6 +68,7 @@
         cursor: pointer;
     }
 }
+
 
 
 .applicationTextDataWrapper {
@@ -103,6 +116,16 @@
     background-color: rgb(235, 235, 235);
 }
 
+.titleB {
+    border: 1px solid rgb(201, 201, 201);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+}
+
 .applicationInfoText {
     border: 1px solid rgb(201, 201, 201);
     padding: 10px;
@@ -119,4 +142,20 @@
     align-items: flex-start;
     justify-content: flex-start;
     grid-gap: 40px;
+}
+
+.fileInfoWrapper {
+    width: 1400px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.fileDataInfo {
+    border: 1px solid rgb(201, 201, 201);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(255, 255, 255);
 }

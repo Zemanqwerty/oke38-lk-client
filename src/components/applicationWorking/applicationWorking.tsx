@@ -29,9 +29,11 @@ const setFileType = (fileType: string) => {
     }
 }
 
-const ApplicationWorking: FC = () => {
+interface WorkingFiles {
+    files: FilesResponse[];
+}
 
-    const [files, setFiles] = useState<FilesResponse[]>([]);
+const ApplicationWorking: FC<WorkingFiles> = (props: WorkingFiles) => {
 
     return (
         <div className={styles.filesWrapper}>
@@ -46,7 +48,7 @@ const ApplicationWorking: FC = () => {
                     Действия
                 </div>
             </div>
-            {files.map((file) => {
+            {props.files.map((file) => {
                 return (
                     <div className={styles.fileInfoWrapper}>
                         <div className={styles.fileDataInfo}>

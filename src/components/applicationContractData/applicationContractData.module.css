@@ -81,6 +81,16 @@
     }
 }
 
+.titleB {
+    border: 1px solid rgb(201, 201, 201);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+}
+
 .applicationTitles {
     width: 1400px;
     display: grid;

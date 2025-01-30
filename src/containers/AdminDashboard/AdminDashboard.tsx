@@ -7,12 +7,20 @@ import Application from "../../components/application";
 import reloadImg from '../../resources/images/reload.png'
 import AdminApplicationView from "../../components/adminApplicationView";
 import stepArrow from '../../resources/images/stepArrow.png';
+import { useNavigate } from "react-router-dom";
+import { StreamState } from "http2";
+import AdminUsers from "../AdminUsers";
+import AdminDogovorenergo from "../../components/adminDogovorenergo";
+import AdminDogovoeEnergoEdit from "../../components/adminDogovorEnergoEdit";
 
 interface ApplicationsProps {
     setActiveBlock: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+    type: string;
 }
 
 const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
+
+    const navigate = useNavigate();
 
     const {store} = useContext(Context)
 
@@ -33,6 +41,15 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
     }
 
     useEffect(() => {
+        if (props.type == 'application') {
+            return props.setActiveBlock(<AdminApplicationView />)
+        } else if (props.type == 'users') {
+            return props.setActiveBlock(<AdminUsers />)
+        } else if (props.type == 'dogovorenergo') {
+            return props.setActiveBlock(<AdminDogovorenergo />)
+        } else if (props.type == 'dogovorenergoEdit') {
+            return props.setActiveBlock(<AdminDogovoeEnergoEdit />)
+        }
         getAllApplications(pageNumber);
     }, [])
 
@@ -45,6 +62,10 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
         getAllApplications(pageNumber - 1)
         setPageNumber(pageNumber - 1)
     }
+
+    const handleApplicationClick = (applicationId: string) => {
+        navigate(`/application/${applicationId}`);
+    };
 
     const [searchApplicationId, setSearchApplicationId] = useState<string>('');
     const [searchCity, setSearchCity] = useState<string>('');
@@ -125,7 +146,7 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
                             
                             <tr key={application.uuid} className={styles.applicationBlock}>
                                 <td className={styles.tableFields}>{application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
-                                <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => props.setActiveBlock(<AdminApplicationView application={application}/>)}>{application.uuid}</td>
+                                <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => handleApplicationClick(application.uuid)}>{application.uuid}</td>
                                 <td className={styles.tableFields}>{application.address}</td>
                                 <td className={styles.tableFields}>
                                     {application.userLastName !== null ? application.userLastName : application.yl_fullname}

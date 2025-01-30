@@ -20,48 +20,86 @@ import ApplicationBillPaying from "../applicationBillPaying";
 import ApplicationEnergiContract from "../applicationEnergiContract";
 import ApplicationChating from "../applicationChating";
 import EditApplicationModal from "../editApplicationModal";
+import { useParams } from "react-router-dom";
 
 interface ApplicationProps {
     application: ApplicationsResponse;
 }
 
 const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
+
+    const { id } = useParams<{ id: string }>();
+    
+    const [application, setApplication] = useState<ApplicationsResponse | null>(null)
     const {store} = useContext(Context);
     const [files, setFiles] = useState<FilesResponse[]>([]);
+    const [workingFiles, setWorkingFiles] = useState<FilesResponse[]>([]);
 
     const { isOpen: setFilialIsOpen, toggle: setFilialToggle } = useModal();
     const { isOpen: createInOneSIsOpen, toggle: createInOneSToggle } = useModal();
     const { isOpen: setNumberIsOpen, toggle: setNumberToggle } = useModal();
     const { isOpen: editApplicationDataIsOpen, toggle: editApplicationDataToggle } = useModal();
 
+    const [currentMenuElement, setCurrentMenuElement] = useState<number>(0);
+
+    useEffect(() => {
+        setApplication(null); // Сбрасываем состояние application
+        const getApplicationById = async (id: string | undefined) => {
+            if (id) {
+                ApplicationsService.getById(id).then((response) => {
+                    if (response.status === 200) {
+                        setApplication(response.data);
+                    }
+                });
+            }
+        }
+
+        const getFilesByApplicationId = async (id: string | undefined) => {
+            if (id) {
+                await ApplicationsService.getFilesByApplication(id).then((response) => {
+                    setFiles(response.data);
+                })
+            }
+        }
+
+        const getWorkingFilesByApplicationId = async (id: string | undefined) => {
+            if (id) {
+                await ApplicationsService.getApplicationWorkingFiles(id).then((response) => {
+                    setWorkingFiles(response.data);
+                })
+            }
+        }
+
+        getApplicationById(id)
+        getFilesByApplicationId(id);
+        getWorkingFilesByApplicationId(id);
+    }, [id])
+
+    if (!application) {
+        return <div>Загрузка данных о заявке...</div>;
+    }
+
     interface MenuElement {
         title: string;
         body: React.ReactNode;
     }
+
+    if (!id) {
+        return <div>Заявка не найдена</div>
+    }
     
     const menuElements: MenuElement[] = [
-      { title: 'Заявка (черновик)', body: <ApplicationDraft files={files} application={props.application} setFiles={setFiles}/>},
-      { title: 'Заявка (рабочая)', body: <ApplicationWorking /> },
-      { title: 'Договор ТП', body: <ApplicationContractData /> },
+      { title: 'Заявка (черновик)', body: <ApplicationDraft files={files} application={application} setFiles={setFiles}/> },
+      { title: 'Заявка (рабочая)', body: <ApplicationWorking files={workingFiles}/> },
+      { title: 'Договор ТП', body: <ApplicationContractData id={id}/> },
       { title: 'Счет (оплата)', body: <ApplicationBillPaying /> },
-      { title: 'Договор Энергоснабжения', body: <ApplicationEnergiContract /> },
-      { title: 'Переписка', body: <ApplicationChating id={props.application.uuid}/> },
+      { title: 'Договор Энергоснабжения', body: <ApplicationEnergiContract id={id} /> },
+      { title: 'Переписка', body: <ApplicationChating id={application.uuid}/> },
     ];
-
-    const [currentMenuElement, setCurrentMenuElement] = useState<number>(0);
 
     const handleMenuElementClick = (id: number) => {
         setCurrentMenuElement(id)
     }
-
-    useEffect(() => {
-        const getFilesByApplicationId = async (id: string) => {
-            await ApplicationsService.getFilesByApplication(id).then((response) => {
-                setFiles(response.data);
-            })
-        }
-        getFilesByApplicationId(props.application.uuid);
-    }, [])
 
     return (
         <div className={styles.applicationWrapper}>

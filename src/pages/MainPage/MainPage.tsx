@@ -13,7 +13,11 @@ import AdminDashboard from "../../containers/AdminDashboard";
 import AdminUsers from "../../containers/AdminUsers";
 import AdminDogovorenergo from "../../components/adminDogovorenergo";
 
-const MainPage: FC = () => {
+interface PageData {
+    type: string;
+}
+
+const MainPage: FC<PageData> = (props: PageData) => {
     const navigate = useNavigate();
     const {store} = useContext(Context)
 
@@ -28,11 +32,23 @@ const MainPage: FC = () => {
         console.log(store.role);
         
         if (store.role === 'администратор') {
-            setActiveBlock(<AdminDashboard setActiveBlock={setActiveBlock}/>)
+            setActiveBlock(<AdminDashboard setActiveBlock={setActiveBlock} type={props.type} />)
         } else {
             setActiveBlock(<ClientApplications setActiveBlock={setActiveBlock}/>);
         }
     }, [store.isAuth, store.email, navigate]);
+
+    const handleApplicationsClick = () => {
+        navigate(`/`);
+    };
+
+    const handleUsersClick = () => {
+        navigate(`/users`);
+    };
+
+    const handleDogovorClick = () => {
+        navigate(`/dogovorenergo`);
+    };
 
     if (store.role === 'администратор') {
        
@@ -43,9 +59,9 @@ const MainPage: FC = () => {
                 <div className={styles.container}>
                     <div className={styles.topWrapper}>
                         <div className={styles.lkApplicationsNav}>
-                            <button className={styles.lkApplicationsNavBtn} onClick={() => setActiveBlock(<AdminDashboard setActiveBlock={setActiveBlock}/>)}>Все заявки</button>
-                            <button className={styles.lkApplicationsNavBtn} onClick={() => setActiveBlock(<AdminUsers setActiveBlock={setActiveBlock}/>)}>Пользователи</button>
-                            <button className={styles.lkApplicationsNavBtn} onClick={() => setActiveBlock(<AdminDogovorenergo setActiveBlock={setActiveBlock}/>)}>Договоры энергоснабжения</button>
+                            <button className={styles.lkApplicationsNavBtn} onClick={() => handleApplicationsClick()}>Все заявки</button>
+                            <button className={styles.lkApplicationsNavBtn} onClick={() => handleUsersClick()}>Пользователи</button>
+                            <button className={styles.lkApplicationsNavBtn} onClick={() => handleDogovorClick()}>Договоры энергоснабжения</button>
                         </div>
                         {/* <div className="">
                             <button className={styles.lkNavInfoBtn}>Справка</button>

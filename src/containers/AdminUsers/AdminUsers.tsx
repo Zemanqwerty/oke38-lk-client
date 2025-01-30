@@ -15,11 +15,12 @@ import CreateNewUserModal from "../../components/createNewUserModal";
 import cross from '../../resources/images/cross.png';
 import edit from '../../resources/images/edit.png';
 
-interface UsersProps {
-    setActiveBlock: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-}
+// interface UsersProps {
+//     setActiveBlock: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+// }
 
-const AdminUsers: FC<UsersProps> = (props: UsersProps) => {
+// const AdminUsers: FC<UsersProps> = (props: UsersProps) => {
+const AdminUsers: FC = () => {
     const {store} = useContext(Context)
 
     const { isOpen: setRoleIsOpen, toggle: setRoleToggle } = useModal();
