@@ -36,7 +36,7 @@ const SendApplication: FC = () => {
     const [reason, setReason] = useState<string>('увеличение мощности');
     const [city, setCity] = useState<string>('');
     const [address, setAddress] = useState<string>('');
-    const [maxPower, setMaxPower] = useState<string>('');
+    const [maxPower, setMaxPower] = useState<number>(15);
     const [powerLevel, setPowerLevel] = useState<string>('0');
     const [paymentsOption, setPaymentsOption] = useState<string>('0');
     const [provider, setProvider] = useState<string>('ООО "Иркутскэнергосбыт"');
@@ -55,7 +55,7 @@ const SendApplication: FC = () => {
             reason,
             city,
             address,
-            maxPower,
+            maxPower.toString(),
             powerLevel,
             paymentsOption,
             provider
@@ -133,8 +133,8 @@ const SendApplication: FC = () => {
                 </div>
                 <div className={styles.formInputContainer}>
                     <p className={styles.inputDescriptions}>Максимальная мощность (присоединяемых и ранее присоединенных) энергопринимающих устройств, кВт:</p>
-                    <input type="text"  className={styles.inputUserData}
-                        onChange={e => setMaxPower(e.target.value)}
+                    <input type="number"  className={styles.inputUserData}
+                        onChange={e => setMaxPower(parseInt(e.target.value))}
                         placeholder="..."
                     value={maxPower}/>
                 </div>

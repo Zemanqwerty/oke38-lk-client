@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import styles from './applicationEnergiContract.module.css'
 import { useNavigate } from "react-router-dom";
 import { DogovorEnergoResponse } from "../../models/response/DogovorEnergoResponse";
@@ -7,6 +7,7 @@ import { ContractDocsResponse } from "../../models/response/ContractDocsResponse
 import downloadIcon from '../../resources/images/download_icon.png';
 import showIcon from '../../resources/images/show_icon.png';
 import { API_URL } from "../../http";
+import { Context } from "../..";
 
 interface ApplicationData {
     id: string;
@@ -16,6 +17,8 @@ const ApplicationEnergiContract: FC<ApplicationData> = (props: ApplicationData) 
 
     const [dogovor, setDogovor] = useState<DogovorEnergoResponse>();
     const [contractFiles, setContractFiles] = useState<ContractDocsResponse[]>([]);
+
+    const {store} = useContext(Context);
 
     const navigate = useNavigate()
 
@@ -84,9 +87,11 @@ const ApplicationEnergiContract: FC<ApplicationData> = (props: ApplicationData) 
                     </div>
             </div>
 
-            <button className={styles.sendMessageBtn} onClick={() => editClickHandler()}>
-                Редактировать
-            </button>
+            {
+                store.role == 'администратор'
+                ? <button className={styles.sendMessageBtn} onClick={() => editClickHandler()}>Редактировать</button>
+                : null
+            }
 
 
             <div className={styles.applicationTextDataWrapper}>

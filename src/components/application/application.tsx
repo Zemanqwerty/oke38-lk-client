@@ -22,11 +22,11 @@ import ApplicationChating from "../applicationChating";
 import EditApplicationModal from "../editApplicationModal";
 import { useParams } from "react-router-dom";
 
-interface ApplicationProps {
-    application: ApplicationsResponse;
-}
+// interface ApplicationProps {
+//     application: ApplicationsResponse;
+// }
 
-const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
+const Application: FC = () => {
 
     const { id } = useParams<{ id: string }>();
     
@@ -134,7 +134,7 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
                     <p>Идентификатор заявки</p>
                 </div>
                 <div className="">
-                    <p>{props.application.uuid}</p>
+                    <p>{application.uuid}</p>
                 </div>
             </div>
             <div className={styles.clientDataWrapper}>
@@ -142,17 +142,17 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
                     <p>Информация о заявителе (контактном лице)</p>
                 </div>
                 <div className={styles.clientDataBlock}>
-                    <p>{props.application.userLastName} {props.application.userFirstName} {props.application.userSurname}</p>
-                    <p>{props.application.userType}</p>
-                    <p>{props.application.userPhoneNumber}</p>
-                    <p>{props.application.userEmail}</p>
+                    <p>{application.userLastName} {application.userFirstName} {application.userSurname}</p>
+                    <p>{application.userType}</p>
+                    <p>{application.userPhoneNumber}</p>
+                    <p>{application.userEmail}</p>
                 </div>
             </div>
             <div className={styles.applicationTextDataWrapper}>
                 <div className={styles.DataTitle}>
                     <p>Информация о заявке</p>
                     {
-                        props.application.status === 'Принята' && store.role === 'client'
+                        application.status === 'Принята' && store.role === 'client'
                         ? <button onClick={() => editApplicationDataToggle()}>Редактировать</button>
                         : null 
                     }
@@ -198,44 +198,44 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
 
 
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</p>
+                        <p>{application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.vidzayavki}</p>
+                        <p>{application.vidzayavki}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                    <p>{props.application.userLastName !== null ? props.application.userLastName : props.application.yl_fullname}
+                    <p>{application.userLastName !== null ? application.userLastName : application.yl_fullname}
                                     <br />
-                                    {props.application.userFirstName}
+                                    {application.userFirstName}
                                     <br />
-                                    {props.application.userSurname}</p>
+                                    {application.userSurname}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.filial}</p>
+                        <p>{application.filial}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.applicationNumber}</p>
+                        <p>{application.applicationNumber}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                    <p>{props.application.applicationDate?.toString().split('T')[0].replace(/-/g, '.')}</p>
+                    <p>{application.applicationDate?.toString().split('T')[0].replace(/-/g, '.')}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.status}</p>
+                        <p>{application.status}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.ststusoplaty}</p>
+                        <p>{application.ststusoplaty}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.address}</p>
+                        <p>{application.address}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.maxPower}</p>
+                        <p>{application.maxPower}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.powerLevel}</p>
+                        <p>{application.powerLevel}</p>
                     </div>
                     <div className={styles.applicationInfoText}>
-                        <p>{props.application.paymentOption === 'Оплата 100%' ? '100%' : '10% / 90%'}</p>
+                        <p>{application.paymentOption === 'Оплата 100%' ? '100%' : '10% / 90%'}</p>
                     </div>
                 </div>
             </div>
@@ -268,7 +268,7 @@ const Application: FC<ApplicationProps> = (props: ApplicationProps) => {
                 {/* <SetNumberStatusModal id={props.application.id}/> */}
             </ModalWindow>
             <ModalWindow isOpen={editApplicationDataIsOpen} toggle={editApplicationDataToggle}>
-                <EditApplicationModal application={props.application}/>
+                <EditApplicationModal application={application}/>
             </ModalWindow>
         </div>
     )

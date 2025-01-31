@@ -7,12 +7,18 @@ import { Context } from "../..";
 import { observable } from "mobx";
 import reloadImg from '../../resources/images/reload.png';
 import Application from "../application";
+import { useNavigate } from "react-router";
+import SendApplication from "../sendApplication/SendApplication";
 
 interface ApplicationsProps {
     setActiveBlock: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+    type: string;
 }
 
 const ClientApplications: FC<ApplicationsProps> = (props: ApplicationsProps) => {
+
+    const navigate = useNavigate();
+
     const {store} = useContext(Context);
 
     const [applications, setApplications] = useState<ApplicationsResponse[]>([])
@@ -25,7 +31,17 @@ const ClientApplications: FC<ApplicationsProps> = (props: ApplicationsProps) => 
 
     useEffect(() => {
         getAllApplications();
+
+        if (props.type == 'application') {
+            return props.setActiveBlock(<Application />)
+        } else if (props.type == 'newApplication') {
+            return props.setActiveBlock(<SendApplication />)
+        }
     }, [])
+
+    const handleApplicationClick = (applicationId: string) => {
+        navigate(`/application/${applicationId}`);
+    };
     
     return (
         <div className={styles.applicationsWrapper}>
@@ -49,7 +65,7 @@ const ClientApplications: FC<ApplicationsProps> = (props: ApplicationsProps) => 
                             return (
                                 <tr key={application.uuid} className={styles.applicationBlock}>
                                     <td className={styles.tableFields}>{application.createdAt == null ? '' : application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
-                                    <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => props.setActiveBlock(<Application application={application}/>)}>{application.uuid}</td>
+                                    <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => handleApplicationClick(application.uuid)}>{application.uuid}</td>
                                     <td className={styles.tableFields}>{application.address == null ? '' : application.address}</td>
                                     <td className={styles.tableFields}>{application.provider == null ? '' : application.provider}</td>
                                     <td className={styles.tableFields}>{application.maxPower == null ? '' : application.maxPower}</td>

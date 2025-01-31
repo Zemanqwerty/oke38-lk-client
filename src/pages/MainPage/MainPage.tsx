@@ -34,7 +34,7 @@ const MainPage: FC<PageData> = (props: PageData) => {
         if (store.role === 'администратор') {
             setActiveBlock(<AdminDashboard setActiveBlock={setActiveBlock} type={props.type} />)
         } else {
-            setActiveBlock(<ClientApplications setActiveBlock={setActiveBlock}/>);
+            setActiveBlock(<ClientApplications setActiveBlock={setActiveBlock} type={props.type} />);
         }
     }, [store.isAuth, store.email, navigate]);
 
@@ -48,6 +48,10 @@ const MainPage: FC<PageData> = (props: PageData) => {
 
     const handleDogovorClick = () => {
         navigate(`/dogovorenergo`);
+    };
+
+    const handleNewApplicationnClick = () => {
+        navigate(`/application/new`);
     };
 
     if (store.role === 'администратор') {
@@ -81,8 +85,8 @@ const MainPage: FC<PageData> = (props: PageData) => {
                 <div className={styles.container}>
                     <div className={styles.topWrapper}>
                         <div className={styles.lkApplicationsNav}>
-                            <button className={styles.lkApplicationsNavBtn} onClick={() => setActiveBlock(<ClientApplications setActiveBlock={setActiveBlock}/>)}>Мои заявки</button>
-                            <button className={styles.lkApplicationsNavBtn} onClick={() => setActiveBlock(<SendApplication />)}>Подать заявку</button>
+                            <button className={styles.lkApplicationsNavBtn} onClick={() => handleApplicationsClick()}>Мои заявки</button>
+                            <button className={styles.lkApplicationsNavBtn} onClick={() => handleNewApplicationnClick()}>Подать заявку</button>
                         </div>
                         <div className="">
                             <button className={styles.lkNavInfoBtn}>Справка</button>
