@@ -14,6 +14,7 @@ import UserSetPhoneNumberModal from "../../components/userSetPhoneNumberModal";
 import CreateNewUserModal from "../../components/createNewUserModal";
 import cross from '../../resources/images/cross.png';
 import edit from '../../resources/images/edit.png';
+import { UsersRelationsResponse } from "../../models/response/UsersRelationsResponse";
 
 // interface UsersProps {
 //     setActiveBlock: React.Dispatch<React.SetStateAction<React.ReactNode>>;
@@ -29,14 +30,25 @@ const AdminUsers: FC = () => {
     const { isOpen: createNewUserIsOpen, toggle: createNewUserToggle } = useModal();
 
     const [users, setUsers] = useState<UsersResponse[]>([]);
+    const [usersCount, setUsersCount] = useState<number>();
+    const [userRoles, setUserRoles] = useState<UsersRelationsResponse[]>([]);
+    const [userTypes, setUserTypes] = useState<UsersRelationsResponse[]>([]);
 
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [customPageNumber, setCustomPageNumber] = useState<number>(1);
 
     const [currentUser, setCurrentUser] = useState<UsersResponse>();
 
-    const getAllUsers = async (pageNumber: number) => {
-        UsersService.getAllUsers(pageNumber).then((response) => {
+    const [searchUser, setSearchUser] = useState<string>('');
+    const [searchEmail, setSearchEmail] = useState<string>('');
+    const [searchPhone, setSearchPhone] = useState<string>('');
+    const [searchRole, setSearchRole] = useState<number>();
+    const [searchType, setSearchType] = useState<number>();
+
+    const [searchPageNumber, setSearchPagenumber] = useState<number>(1);
+
+    const getAllUsers = async (pageNumber: number, filters?: any) => {
+        await UsersService.getAllUsers(pageNumber, filters).then((response) => {
             if (response.status === 200) {
                 setUsers(response.data);
             }
@@ -46,19 +58,62 @@ const AdminUsers: FC = () => {
         })
     }
 
+    const getAllUsersCount = async () => {
+        await UsersService.getAllUsersCount().then((response) => {
+            if (response?.status === 200) {
+                return setUsersCount(response?.data);
+            }
+        })
+    }
+
+    const getUserRoles = async () => {
+        await UsersService.getUserRoles().then((response) => {
+            if (response?.status === 200) {
+                return setUserRoles(response?.data);
+            }
+        })
+    }
+
+    const getUserTypes = async () => {
+        await UsersService.getUserTypes().then((response) => {
+            if (response?.status === 200) {
+                return setUserTypes(response?.data);
+            }
+        })
+    }
+
     useEffect(() => {
-        getAllUsers(pageNumber);
+        getUserRoles();
+        getUserTypes();
     }, [])
 
+    useEffect(() => {
+        const filters = {
+            user: searchUser,
+            email: searchEmail,
+            phone: searchPhone,
+            type: searchType,
+            role: searchRole
+        };
+        getAllUsers(searchPageNumber, filters);
+        getAllUsersCount();
+    }, [searchPageNumber, searchUser, searchEmail, searchPhone, searchRole, searchType])
+
     const getUsersFromNextPage = () => {
-        getAllUsers(pageNumber + 1)
-        setPageNumber(pageNumber + 1)
+        handleChangePagenumber(pageNumber + 1)
     }
 
     const getUsersFromPrevPage = () => {
-        getAllUsers(pageNumber - 1)
-        setPageNumber(pageNumber - 1)
+        handleChangePagenumber(pageNumber - 1)
     }
+
+    const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSearchRole(event.target.value ? parseInt(event.target.value) : undefined);
+    };
+
+    const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSearchType(event.target.value ? parseInt(event.target.value) : undefined);
+    };
 
     // const showUserRole = (role: string) => {
     //     switch (role) {
@@ -83,6 +138,15 @@ const AdminUsers: FC = () => {
         })
     }
 
+    const handleChangePagenumber = (pn: number) => {
+        if (Number.isNaN(pn)) {
+            return setCustomPageNumber(pn)
+        }
+        setSearchPagenumber(pn);
+        setPageNumber(pn);
+        setCustomPageNumber(pn);
+    }
+
     return (
         <div className={styles.applicationsWrapper}>
             <div className={styles.applicationsTitle}>
@@ -94,7 +158,7 @@ const AdminUsers: FC = () => {
                     {pageNumber === 1
                     ? null
                     : <img src={stepArrow} alt="назад" className={styles.prevPageImg} onClick={() => getUsersFromPrevPage()}/>}
-                    <p>Страница {pageNumber}</p>
+                    <p>Страница {pageNumber} {usersCount ? <>... {Math.round(usersCount / 20)}</> : null}</p>
                     {users.length < 20
                     ? null
                     : <img src={stepArrow} alt="вперёд" className={styles.nextPageImg} onClick={() => getUsersFromNextPage()}/>}
@@ -102,8 +166,8 @@ const AdminUsers: FC = () => {
                 <div className={styles.selectPageBlock}>
                     <p>Введите номер страницы</p>
                     <div className={styles.selectPage}>
-                        <input className={styles.selectPageInput} type="number" value={customPageNumber} onChange={e => setCustomPageNumber(parseInt(e.target.value, 10))}/>
-                        <button className={styles.selectPageBtn} onClick={() => getAllUsers(customPageNumber)}>Показать</button>
+                        <input className={styles.selectPageInput} type="number" value={customPageNumber} onChange={e => handleChangePagenumber(parseInt(e.target.value, 10))}/>
+                        {/* <button className={styles.selectPageBtn} onClick={() => getAllUsers(customPageNumber)}>Показать</button> */}
                     </div>
                 </div>
             </div>
@@ -119,30 +183,52 @@ const AdminUsers: FC = () => {
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
                                 Электронная почта
-                                {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchApplicationId(e.target.value)} value={searchApplicationId}/> */}
+                                <input type="text" className={styles.tableSearchInput} placeholder="" onChange={e => setSearchEmail(e.target.value)} value={searchEmail}/>
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
                                 Номер телефона
-                                {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchCity(e.target.value)} value={searchCity}/> */}
+                                <input type="text" className={styles.tableSearchInput} placeholder="" onChange={e => setSearchPhone(e.target.value)} value={searchPhone}/>
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
                                 Тип
+                                <select value={searchType} onChange={handleTypeChange} className={styles.tableSearchInput}>
+                                    <option value={undefined}></option>
+                                    {
+                                        userTypes?.length ?
+                                        userTypes.map((type) => {
+                                            return (
+                                                <option value={type.idClient}>{type.caption}</option>
+                                            )
+                                        }) : null
+                                    }
+                                </select>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchAddress(e.target.value)} value={searchAddress}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
                                 Фио
-                                {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchUser(e.target.value)} value={searchUser}/> */}
+                                <input type="text" className={styles.tableSearchInput} placeholder="" onChange={e => setSearchUser(e.target.value)} value={searchUser}/>
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
                                 Роль
+                                <select value={searchRole} onChange={handleRoleChange} className={styles.tableSearchInput}>
+                                    <option value={undefined}></option>
+                                    {
+                                        userRoles?.length ?
+                                        userRoles.map((role) => {
+                                            return (
+                                                <option value={role.idClient}>{role.caption}</option>
+                                            )
+                                        }) : null
+                                    }
+                                </select>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchMaxPower(e.target.value)} value={searchMaxPower}/> */}
                             </div>
                         </th>

@@ -11,6 +11,8 @@ import { StatusesResponse } from "../models/response/StatusesResponse";
 import { DogovorEnergoResponse } from "../models/response/DogovorEnergoResponse";
 import { ContractResponse } from "../models/response/ContractResponse";
 import { ContractDocsResponse } from "../models/response/ContractDocsResponse";
+import { VidRassrochki } from "../models/response/VidRassrochkiResponse";
+import { UsersRelationsResponse } from "../models/response/UsersRelationsResponse";
 
 export default class ApplicationsService {
     static async getAllByUser(): Promise<AxiosResponse<ApplicationsResponse[]>> {
@@ -26,15 +28,67 @@ export default class ApplicationsService {
         }
     }
 
-    static async getAll(pageNumber: number): Promise<AxiosResponse<ApplicationsResponse[]>> {
+    static async getAll(pageNumber: number, filters: any): Promise<AxiosResponse<ApplicationsResponse[]>> {
         try {
-            const res = await $api.get<ApplicationsResponse[]>(`applications/all/?page=${pageNumber}`, {withCredentials: true});
+            const res = await $api.get<ApplicationsResponse[]>(`applications/all`, {params: {page: pageNumber, ...filters},withCredentials: true});
             if (res.status !== 200) {
                 throw new Error();
             }
             return res;
         } catch {
-            return await $apiLocalNetwork.get<ApplicationsResponse[]>(`applications/all/?page=${pageNumber}`, {withCredentials: true});
+            return await $apiLocalNetwork.get<ApplicationsResponse[]>(`applications/all`, {params: {page: pageNumber, ...filters},withCredentials: true});
+        }
+    }
+
+    static async getAllVidRassrochki(): Promise<AxiosResponse<UsersRelationsResponse[]>> {
+        try {
+            const res = await $api.get<UsersRelationsResponse[]>(`applications/vidrassrochki`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            console.log(res);
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<UsersRelationsResponse[]>(`applications/vidrassrochki`, {withCredentials: true});
+        }
+    }
+
+    static async getAllApplicationStatus(): Promise<AxiosResponse<UsersRelationsResponse[]>> {
+        try {
+            const res = await $api.get<UsersRelationsResponse[]>(`applications/applicationstatus`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            console.log(res);
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<UsersRelationsResponse[]>(`applications/applicationstatus`, {withCredentials: true});
+        }
+    }
+
+    static async getAllStatusOplaty(): Promise<AxiosResponse<UsersRelationsResponse[]>> {
+        try {
+            const res = await $api.get<UsersRelationsResponse[]>(`applications/statusoplaty`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            console.log(res);
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<UsersRelationsResponse[]>(`applications/statusoplaty`, {withCredentials: true});
+        }
+    }
+
+    static async getApplicationsCount(): Promise<AxiosResponse<number>> {
+        try {
+            const res = await $api.get<number>(`applications/count`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            console.log(res);
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<number>(`applications/count`, {withCredentials: true});
         }
     }
 
@@ -283,6 +337,18 @@ export default class ApplicationsService {
             return res;
         } catch {
             return await $apiLocalNetwork.post<AxiosResponse>(`applications/dogovorenergo/${applicationId}/edit`, {nomerLS, dogovorNumber, epuNumber, dateOfCreateDogovor}, {withCredentials: true});
+        }
+    }
+
+    static async getAllDogovorEnergoCount(): Promise<AxiosResponse<number>> {
+        try {
+            const res = await $api.get<number>(`applications/dogovorenergocount`, {withCredentials: true});
+            if (res.status !== 200) {
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<number>(`applications/dogovorenergocount`, {withCredentials: true});
         }
     }
 

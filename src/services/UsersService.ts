@@ -2,18 +2,58 @@ import { AxiosResponse } from "axios";
 import $api from "../http";
 import $apiLocalNetwork from "../httpLocalNetwork";
 import { UsersResponse } from "../models/response/UsersResponse";
+import { UsersRelationsResponse } from "../models/response/UsersRelationsResponse";
 
 export default class UsersService {
-    static async getAllUsers(pageNumber: number) {
+    static async getAllUsers(pageNumber: number, filters: any) {
         try {
-            const res = await $api.get<UsersResponse[]>(`users/admin/all?page=${pageNumber}`, {withCredentials: true});
+            const res = await $api.get<UsersResponse[]>(`users/admin/all`, {params: {page: pageNumber, ...filters},withCredentials: true});
             if (res.status !== 200) {
                 console.log(res);
                 throw new Error();
             }
             return res;
         } catch {
-            return await $apiLocalNetwork.get<UsersResponse[]>(`users/admin/all?page=${pageNumber}`, {withCredentials: true});
+            return await $apiLocalNetwork.get<UsersResponse[]>(`users/admin/all`, {params: {page: pageNumber, ...filters},withCredentials: true});
+        }
+    }
+
+    static async getAllUsersCount() {
+        try {
+            const res = await $api.get<number>(`users/userscount`, {withCredentials: true});
+            if (res.status !== 200) {
+                console.log(res);
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<number>(`users/userscount`, {withCredentials: true});
+        }
+    }
+
+    static async getUserTypes() {
+        try {
+            const res = await $api.get<UsersRelationsResponse[]>(`users/types`, {withCredentials: true});
+            if (res.status !== 200) {
+                console.log(res);
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<UsersRelationsResponse[]>(`users/types`, {withCredentials: true});
+        }
+    }
+
+    static async getUserRoles() {
+        try {
+            const res = await $api.get<UsersRelationsResponse[]>(`users/roles`, {withCredentials: true});
+            if (res.status !== 200) {
+                console.log(res);
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<UsersRelationsResponse[]>(`users/roles`, {withCredentials: true});
         }
     }
 

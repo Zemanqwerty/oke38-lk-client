@@ -28,10 +28,19 @@ const AdminDogovorenergo: FC = () => {
     const navigate = useNavigate();
 
     const [dogovorEnergoList, setDogovorEnergoList] = useState<DogovorEnergoResponse[]>([]);
+    const [dogovorEnergoCount, setDogovorEnergoCount] = useState<number>();
 
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [customPageNumber, setCustomPageNumber] = useState<number>(1);
+    const [searchPageNumber, setSearchPagenumber] = useState<number>(1);
 
+    const getAllDogovorEnergoCount = async () => {
+        ApplicationsService.getAllDogovorEnergoCount().then((response) => {
+            if (response?.status === 200) {
+                return setDogovorEnergoCount(response?.data);
+            }
+        })
+    }
 
     const getAllDogovorEnergo = async (pageNumber: number) => {
         ApplicationsService.getAllDogovorEnergo(pageNumber).then((response) => {
@@ -45,21 +54,29 @@ const AdminDogovorenergo: FC = () => {
     }
 
     useEffect(() => {
-        getAllDogovorEnergo(pageNumber);
-    }, [])
+        getAllDogovorEnergo(searchPageNumber);
+        getAllDogovorEnergoCount();
+    }, [searchPageNumber])
 
     const getUsersFromNextPage = async () => {
-        await getAllDogovorEnergo(pageNumber + 1)
-        setPageNumber(pageNumber + 1)
+        handleChangePagenumber(pageNumber + 1)
     }
 
     const getUsersFromPrevPage = () => {
-        getAllDogovorEnergo(pageNumber - 1)
-        setPageNumber(pageNumber - 1)
+        handleChangePagenumber(pageNumber - 1)
     }
 
     const editClickHandler = (id: string) => {
         navigate(`/application/${id}/dogovorenergo`);
+    }
+
+    const handleChangePagenumber = (pn: number) => {
+        if (Number.isNaN(pn)) {
+            return setCustomPageNumber(pn)
+        }
+        setSearchPagenumber(pn);
+        setPageNumber(pn);
+        setCustomPageNumber(pn);
     }
 
     // const showUserRole = (role: string) => {
@@ -91,7 +108,7 @@ const AdminDogovorenergo: FC = () => {
                     {pageNumber === 1
                     ? null
                     : <img src={stepArrow} alt="назад" className={styles.prevPageImg} onClick={() => getUsersFromPrevPage()}/>}
-                    <p>Страница {pageNumber}</p>
+                    <p>Страница {pageNumber} {dogovorEnergoCount ? <>... {Math.round(dogovorEnergoCount / 20)}</> : null}</p>
                     {dogovorEnergoList.length < 20
                     ? null
                     : <img src={stepArrow} alt="вперёд" className={styles.nextPageImg} onClick={() => getUsersFromNextPage()}/>}
@@ -99,8 +116,8 @@ const AdminDogovorenergo: FC = () => {
                 <div className={styles.selectPageBlock}>
                     <p>Введите номер страницы</p>
                     <div className={styles.selectPage}>
-                        <input className={styles.selectPageInput} type="number" value={customPageNumber} onChange={e => setCustomPageNumber(parseInt(e.target.value, 10))}/>
-                        <button className={styles.selectPageBtn} onClick={() => getAllDogovorEnergo(customPageNumber)}>Показать</button>
+                        <input className={styles.selectPageInput} type="number" value={customPageNumber} onChange={e => handleChangePagenumber(parseInt(e.target.value, 10))}/>
+                        {/* <button className={styles.selectPageBtn} onClick={() => getAllDogovorEnergo(customPageNumber)}>Показать</button> */}
                     </div>
                 </div>
             </div>
