@@ -71,15 +71,29 @@
 .tableTitles {
     background-color: #0c6ca4;
     color: aliceblue;
-    padding: 1px;
-    font-size: 13px;
+    font-size: 11px;
     max-width: 100px;
     width: auto;
-    height: 65px;
-    padding: 5px 10px;
+    height: 70px;
     border: 2px solid rgb(75, 136, 183);
     border-top: none;
     border-bottom: none;
+}
+
+.tableTitleHr {
+    height: 2px;
+    width: 100%;
+    background-color: rgb(75, 136, 183);
+    border: none;
+}
+
+.tableTitleBlock {
+    width: 100%;
+    height: 50%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tableFields {

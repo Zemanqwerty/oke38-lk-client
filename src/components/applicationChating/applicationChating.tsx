@@ -113,7 +113,7 @@ const ApplicationChating: FC<ApplicationId> = (props: ApplicationId) => {
         <div className={styles.applicationChatingWrapper}>
             <div className={styles.chatField}>
                 {messages.map((message) => (
-                    message.userRole === store.role ? (
+                    message.user.roles === store.role ? (
                         <MyMessage message={message.message} fileName={message.fileName} fileUrl={message.fileUrl}/>
                     ) : (
                         <IncomingMessage message={message.message} fileName={message.fileName} fileUrl={message.fileUrl}/>

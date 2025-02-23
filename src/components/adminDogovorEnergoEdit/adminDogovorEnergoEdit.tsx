@@ -16,6 +16,8 @@ const AdminDogovoeEnergoEdit: FC = () => {
     const [nomerEPU, setNomerEPU] = useState<string | undefined>();
     const [date, setDate] = useState<string | undefined>();
 
+    const [response, setResponse] = useState<string>();
+
     const [application, setApplication] = useState<ApplicationsResponse>();
     const [dogovorEnergo, setDogovorEnergo] = useState<DogovorEnergoResponse>();
 
@@ -71,7 +73,7 @@ const AdminDogovoeEnergoEdit: FC = () => {
     const setDogovorData = async () => {
         await ApplicationsService.setDogovorEnergoData(id, nomerLS, nomerDogovora, nomerEPU, date).then((response) => {
             if (response?.status == 201) {
-                console.log('updated');
+                return setResponse('Информация сохранена.')
             }
         })
     }
@@ -130,6 +132,11 @@ const AdminDogovoeEnergoEdit: FC = () => {
                     <input className={styles.inputData} type="date" value={date || ''} onChange={handleDateChange} />
                 </div>
             </div>
+            {
+                response ?
+                <div className={styles.responseText}>{response}</div> :
+                null
+            }
             <button className={styles.btn} onClick={() => setDogovorData()}>Сохранить</button>
             <div className={styles.inputFilesWrapper}>
             <div className={styles.inputFileWrapper}>

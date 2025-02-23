@@ -40,6 +40,12 @@ const AdminApplicationView: FC = () => {
 
     const [currentMenuElement, setCurrentMenuElement] = useState<number>(0);
 
+    const setApplicationView = async (id: string | undefined) => {
+        if (id) {
+            return ApplicationsService.setViewed(id);
+        }
+    }
+
     useEffect(() => {
         setApplication(null); // Сбрасываем состояние application
         const getApplicationById = async (id: string | undefined) => {
@@ -68,7 +74,8 @@ const AdminApplicationView: FC = () => {
             }
         }
 
-        getApplicationById(id)
+        setApplicationView(id);
+        getApplicationById(id);
         getFilesByApplicationId(id);
         getWorkingFilesByApplicationId(id);
     }, [id])

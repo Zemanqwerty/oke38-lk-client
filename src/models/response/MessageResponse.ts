@@ -1,6 +1,7 @@
+import { UsersResponse } from "./UsersResponse";
+
 export interface Message {
-    user: string;
-    userRole: string;
+    user: UsersResponse;
     message: string | null;
     fileUrl: string | null;
     fileName: string | null;

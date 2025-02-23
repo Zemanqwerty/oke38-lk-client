@@ -6,20 +6,11 @@ import { FilesResponse } from "../models/response/FilesResponse";
 import { NewApplication } from "../models/requests/NewApplication";
 import { saveAs } from 'file-saver';
 import { Message } from "../models/response/MessageResponse";
+import { LastMessages } from "../models/response/LastMessagesResponse.dto";
 
 
 export default class MessagesService {
     static async getAllInChat(chatId: string): Promise<AxiosResponse<Message[]>> {
-        // try {
-        //     const res = await $api.get<Message[]>(`messages/${chatId}/getAll`, {withCredentials: true});
-        //     if (res.status !== 200) {
-        //         console.log(res);
-        //         throw new Error();
-        //     }
-        //     return res;
-        // } catch {
-        //     return await $apiLocalNetwork.get<Message[]>(`messages/${chatId}/getAll`, {withCredentials: true});
-        // }
         const res = await $api.get<Message[]>(`messages/${chatId}/get`, {withCredentials: true});
         return res;
     }
@@ -33,5 +24,15 @@ export default class MessagesService {
         formData.append('userRole', userRole);
 
         return await $api.post(`messages/${chatId}/sendFiles`, formData, {withCredentials: true});
+    }
+
+    static async getLastMessages(pageNumber: number): Promise<AxiosResponse<LastMessages[]>> {
+        const res = await $api.get<LastMessages[]>(`messages/last`, {params: {page: pageNumber}, withCredentials: true});
+        return res;
+    }
+
+    static async getAllMessagesCount(): Promise<AxiosResponse<number>> {
+        const res = await $api.get<number>(`messages/count`, {withCredentials: true});
+        return res;
     }
 }

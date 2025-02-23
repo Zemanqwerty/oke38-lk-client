@@ -23,4 +23,7 @@ export interface ApplicationsResponse {
     contact_familiya: string| null;
     vidzayavki: string | null;
     ststusoplaty: string | null;
+    isViewed: boolean;
+    isFrom1c: boolean;
+    statusDogovora: string | null;
 }

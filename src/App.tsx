@@ -47,6 +47,7 @@ const App: FC = () => {
           {/* <Route path="/admin/dashboard" element={<MainPage />} /> */}
           <Route path="/application/:id" element={<MainPage type='application' key={window.location.pathname} />} />
           <Route path="/users" element={<MainPage type='users' key={window.location.pathname}/>} />
+          <Route path="/messages" element={<MainPage type='messages' key={window.location.pathname}/>} />
           <Route path="/dogovorenergo" element={<MainPage type='dogovorenergo' key={window.location.pathname} />} />
           <Route path="/application/:id/dogovorenergo" element={<MainPage type='dogovorenergoEdit' key={window.location.pathname} />} />
           <Route path="/application/new" element={<MainPage type='newApplication' key={window.location.pathname} />} />

@@ -16,6 +16,10 @@ import { FilialsResponse } from "../../models/response/FilialsResponse";
 import { VidRassrochki } from "../../models/response/VidRassrochkiResponse";
 import { UsersRelationsResponse } from "../../models/response/UsersRelationsResponse";
 import { stat } from "fs";
+import AdminMessages from "../AdminMessages";
+import onecicon from '../../resources/images/1c.png';
+import webIcon from '../../resources/images/web.png';
+import { ContractStatusResponse } from "../../models/response/ContractStatusResponse";
 
 interface ApplicationsProps {
     setActiveBlock: React.Dispatch<React.SetStateAction<React.ReactNode>>;
@@ -37,6 +41,7 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
     const [vidrassrochki, setVidrassrochki] = useState<UsersRelationsResponse[]>();
     const [statusOplaty, setStatusOplaty] = useState<UsersRelationsResponse[]>();
     const [applicationStatus, setApplicationStatus] = useState<UsersRelationsResponse[]>();
+    const [contractStatus, setContractStatus] = useState<ContractStatusResponse[]>();
 
     const [searchAddress, setSearchAddress] = useState<string>('');
     const [searchUser, setSearchUser] = useState<string>('');
@@ -45,6 +50,7 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
     const [searchVidRassrochki, setSearchVidRassrochki] = useState<number>();
     const [searchStatusOplaty, setSearchStatusOplaty] = useState<number>();
     const [searchApplicationStatus, setSearchApplicationStatus] = useState<number>();
+    const [searchContractStatus, setSearchContractStatus] = useState<number>();
     const [searchPageNumber, setSearchPagenumber] = useState<number>(1);
 
     const getAllApplications = async (pageNumber: number, filters?: any) => {
@@ -61,6 +67,14 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
         await ApplicationsService.getAllStatusOplaty().then((response) => {
             if (response?.status === 200) {
                 return setStatusOplaty(response?.data);
+            }
+        })
+    }
+
+    const getAllContractStatus = async () => {
+        await ApplicationsService.getAllContractStatuses().then((response) => {
+            if (response?.status === 200) {
+                return setContractStatus(response?.data);
             }
         })
     }
@@ -101,6 +115,7 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
         getFilials();
         getVidRassrochki();
         getAllStatusOplaty();
+        getAllContractStatus();
         getApplicationsCount();
         getAllApplicationStatus();
     }, [])
@@ -114,6 +129,8 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
             return props.setActiveBlock(<AdminDogovorenergo />)
         } else if (props.type == 'dogovorenergoEdit') {
             return props.setActiveBlock(<AdminDogovoeEnergoEdit />)
+        } else if (props.type == 'messages') {
+            return props.setActiveBlock(<AdminMessages />)
         }
         const filters = {
             address: searchAddress,
@@ -122,10 +139,11 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
             number: searchNumber,
             vidrassrochki: searchVidRassrochki,
             statusoplaty: searchStatusOplaty,
-            applicationstatus: searchApplicationStatus
+            applicationstatus: searchApplicationStatus,
+            contractstatus: searchContractStatus
         };
         getAllApplications(searchPageNumber, filters);
-    }, [searchPageNumber, searchAddress, searchUser, searchFilial, searchNumber, searchVidRassrochki, searchStatusOplaty, searchApplicationStatus])
+    }, [searchPageNumber, searchAddress, searchUser, searchFilial, searchNumber, searchVidRassrochki, searchStatusOplaty, searchApplicationStatus, searchContractStatus])
 
     const getApplicationsFromNextPage = () => {
         // getAllApplications(pageNumber + 1)
@@ -157,6 +175,11 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
 
     const handleSearchApplicationStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSearchApplicationStatus(event.target.value ? parseInt(event.target.value) : undefined);
+    };
+
+    const handleSearchContractStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        console.log(event.target.value);
+        setSearchContractStatus(event.target.value ? parseInt(event.target.value) : undefined);
     };
 
     const handleChangePagenumber = (pn: number) => {
@@ -196,114 +219,210 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
                 <table className={styles.applicationsTable}>
                     <tr>
                         <th className={styles.tableTitles}>
-                            Дата подачи
+                            <div className={styles.tableTitleBlock}>
+                                Дата подачи
+                            </div>
+                            <hr className={styles.tableTitleHr} />
+                            <div className={styles.tableTitleBlock}>
+
+                            </div>
+                        </th>
+                        <th className={styles.tableTitles}>
+                            <div className={styles.tableTitleBlock}>
+                                Откуда
+                            </div>
+                            <hr className={styles.tableTitleHr} />
+                            <div className={styles.tableTitleBlock}>
+
+                            </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Вид заявки
+                                <div className={styles.tableTitleBlock}>
+                                    Вид заявки
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+
+                                </div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchApplicationId(e.target.value)} value={searchApplicationId}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Заявитель
-                                <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchUser(e.target.value)} value={searchUser}/>
+                                <div className={styles.tableTitleBlock}>
+                                    Заявитель
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <input type="text" className={styles.tableSearchInput} placeholder="Поиск..." onChange={e => setSearchUser(e.target.value)} value={searchUser}/>
+                                </div>
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Филиал
-                                <select value={searchFilial} onChange={handleSearchFilialChange} className={styles.tableSearchInput}>
-                                    {
-                                        filials?.length ?
-                                        filials.map((filial) => {
-                                            return (
-                                                <option value={filial.caption_filial}>{filial.caption_filial_short}</option>
-                                            )
-                                        }) : null
-                                    }
-                                </select>
+                                <div className={styles.tableTitleBlock}>
+                                    Филиал
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <select value={searchFilial} onChange={handleSearchFilialChange} className={styles.tableSearchInput}>
+                                        {
+                                            filials?.length ?
+                                            filials.map((filial) => {
+                                                return (
+                                                    <option value={filial.caption_filial}>{filial.caption_filial_short}</option>
+                                                )
+                                            }) : null
+                                        }
+                                    </select>
+                                </div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchAddress(e.target.value)} value={searchAddress}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Номер заявки
-                                <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchNumber(e.target.value)} value={searchNumber}/>
+                                <div className={styles.tableTitleBlock}>
+                                    Номер заявки
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <input type="text" className={styles.tableSearchInput} placeholder="Поиск..." onChange={e => setSearchNumber(e.target.value)} value={searchNumber}/>
+                                </div>
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Дата присвоения заявки
+                                <div className={styles.tableTitleBlock}>
+                                    Дата присвоения заявки
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+
+                                </div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="" onChange={e => setSearchNumber(e.target.value)} value={searchNumber}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Адрес ЭПУ
-                                <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchAddress(e.target.value)} value={searchAddress}/>
+                                <div className={styles.tableTitleBlock}>
+                                    Адрес ЭПУ
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <input type="text" className={styles.tableSearchInput} placeholder="Поиск..." onChange={e => setSearchAddress(e.target.value)} value={searchAddress}/>
+                                </div>
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Статус оплаты
-                                <select value={searchStatusOplaty} onChange={handleSearchStatusOplatyChange} className={styles.tableSearchInput}>
-                                    <option value={undefined}></option>
-                                    {
-                                        statusOplaty?.length ?
-                                        statusOplaty.map((status) => {
-                                            return (
-                                                <option value={status.idClient}>{status.caption}</option>
-                                            )
-                                        }) : null
-                                    }
-                                </select>
+                                <div className={styles.tableTitleBlock}>
+                                    Статус оплаты
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <select value={searchStatusOplaty} onChange={handleSearchStatusOplatyChange} className={styles.tableSearchInput}>
+                                        <option value={undefined}></option>
+                                        {
+                                            statusOplaty?.length ?
+                                            statusOplaty.map((status) => {
+                                                return (
+                                                    <option value={status.idClient}>{status.caption}</option>
+                                                )
+                                            }) : null
+                                        }
+                                    </select>
+                                </div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchUser(e.target.value)} value={searchUser}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
+                                <div className={styles.tableTitleBlock}>
                                 Вариант оплаты
-                                <select value={searchVidRassrochki} onChange={handleSearchVidRassrochkiChange} className={styles.tableSearchInput}>
-                                    <option value={undefined}></option>
-                                    {
-                                        vidrassrochki?.length ?
-                                        vidrassrochki.map((object) => {
-                                            return (
-                                                <option value={object.idClient}>{object.caption}</option>
-                                            )
-                                        }) : null
-                                    }
-                                </select>
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <select value={searchVidRassrochki} onChange={handleSearchVidRassrochkiChange} className={styles.tableSearchInput}>
+                                        <option value={undefined}></option>
+                                        {
+                                            vidrassrochki?.length ?
+                                            vidrassrochki.map((object) => {
+                                                return (
+                                                    <option value={object.idClient}>{object.caption}</option>
+                                                )
+                                            }) : null
+                                        }
+                                    </select>
+                                </div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchUser(e.target.value)} value={searchUser}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Pmax
+                                <div className={styles.tableTitleBlock}>
+                                    Pmax
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+
+                                </div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchMaxPower(e.target.value)} value={searchMaxPower}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                U
+                                <div className={styles.tableTitleBlock}>
+                                    U
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+
+                                </div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchPowerLevel(e.target.value)} value={searchPowerLevel}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Статус заявки
-                                <select value={searchApplicationStatus} onChange={handleSearchApplicationStatusChange} className={styles.tableSearchInput}>
-                                    <option value={undefined}></option>
-                                    {
-                                        applicationStatus?.length ?
-                                        applicationStatus.map((object) => {
-                                            return (
-                                                <option value={object.idClient}>{object.caption}</option>
-                                            )
-                                        }) : null
-                                    }
-                                </select>
+                                <div className={styles.tableTitleBlock}>
+                                    Статус договора
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <select value={searchContractStatus} onChange={handleSearchContractStatusChange} className={styles.tableSearchInput}>
+                                        <option value={undefined}></option>
+                                        {
+                                            contractStatus?.length ?
+                                            contractStatus.map((object) => {
+                                                return (
+                                                    <option value={object.clientId}>{object.caption}</option>
+                                                )
+                                            }) : null
+                                        }
+                                    </select>
+                                </div>
+                                {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchPowerLevel(e.target.value)} value={searchPowerLevel}/> */}
+                            </div>
+                        </th>
+                        <th className={styles.tableTitles}>
+                            <div className={styles.th_wrapper_block}>
+                                <div className={styles.tableTitleBlock}>
+                                    Статус заявки
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <select value={searchApplicationStatus} onChange={handleSearchApplicationStatusChange} className={styles.tableSearchInput}>
+                                        <option value={undefined}></option>
+                                        {
+                                            applicationStatus?.length ?
+                                            applicationStatus.map((object) => {
+                                                return (
+                                                    <option value={object.idClient}>{object.caption}</option>
+                                                )
+                                            }) : null
+                                        }
+                                    </select>
+                                </div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchCity(e.target.value)} value={searchCity}/> */}
                             </div>
                         </th>
@@ -311,14 +430,28 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
                     {applications[0] ? applications.map((application) => {
                         return (
                             
-                            <tr key={application.uuid} className={styles.applicationBlock}>
+                            <tr key={application.uuid} className={`${styles.applicationBlock} ${application.isViewed ? null : styles.notViewed}`}>
                                 <td className={`${styles.tableFields} ${styles.smallTableField}`}>{application.createdAt.toString().split('T')[0].replace(/-/g, ".")}</td>
+                                <td className={`${styles.tableFields} ${styles.smallTableField} ${styles.centerField}`}>
+                                    {
+                                        application.isFrom1c ?
+                                        <img src={onecicon} className={styles.whereFromImg} alt="1c" /> :
+                                        <img src={webIcon} className={styles.whereFromImg} alt="web" />
+                                    }
+                                </td>
                                 <td className={`${styles.tableFields} ${styles.smallTableField}`}>{application.vidzayavki}</td>
-                                <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => handleApplicationClick(application.uuid)}>{application.userLastName !== null ? application.userLastName : application.yl_fullname}
+                                <td className={`${styles.tableFields} ${styles.applicationId}`} onClick={() => handleApplicationClick(application.uuid)}>
+                                    {
+                                        application.userFirstName ?
+                                        `${application.userLastName} ${application.userFirstName} ${application.userSurname}` :
+                                        `${application.yl_fullname ? application.yl_fullname : '---------'}`
+                                    }
+                                    {/* {application.userLastName !== null ?
+                                    application.userLastName : application.yl_fullname}
                                     <br />
                                     {application.userFirstName}
                                     <br />
-                                    {application.userSurname}
+                                    {application.userSurname} */}
                                 </td>
                                 <td className={styles.tableFields}>{application.filial}</td>
                                 <td className={`${styles.tableFields} ${styles.smallTableField}`}>{application.applicationNumber}</td>
@@ -328,7 +461,8 @@ const AdminDasboard: FC<ApplicationsProps> = (props: ApplicationsProps) => {
                                 <td className={styles.tableFields}>{application.paymentOption === 'Оплата 100 %' ? '100%' : '10% / 90%'}</td>
                                 <td className={styles.tableFields}>{application.maxPower}</td>
                                 <td className={styles.tableFields}>{application.powerLevel}</td>
-                                <td className={styles.tableFields}>{application.status}</td>
+                                <td className={`${styles.tableFields} ${styles.smallTableField}`}>{application.statusDogovora}</td>
+                                <td className={`${styles.tableFields} ${styles.smallTableField}`}>{application.status}</td>
                             </tr>
                         )
                     }) : null}

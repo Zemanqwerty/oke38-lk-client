@@ -13,11 +13,38 @@ import { ContractResponse } from "../models/response/ContractResponse";
 import { ContractDocsResponse } from "../models/response/ContractDocsResponse";
 import { VidRassrochki } from "../models/response/VidRassrochkiResponse";
 import { UsersRelationsResponse } from "../models/response/UsersRelationsResponse";
+import { ContractStatusResponse } from "../models/response/ContractStatusResponse";
 
 export default class ApplicationsService {
     static async getAllByUser(): Promise<AxiosResponse<ApplicationsResponse[]>> {
         try {
             const res = await $api.get<ApplicationsResponse[]>('applications', {withCredentials: true});
+            if (res.status !== 200) {
+                console.log(res);
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<ApplicationsResponse[]>('applications', {withCredentials: true});
+        }
+    }
+
+    static async getAllContractStatuses(): Promise<AxiosResponse<ContractStatusResponse[]>> {
+        try {
+            const res = await $api.get<ContractStatusResponse[]>(`applications/allcontractstatuses`, {withCredentials: true});
+            if (res.status !== 200) {
+                console.log(res);
+                throw new Error();
+            }
+            return res;
+        } catch {
+            return await $apiLocalNetwork.get<ContractStatusResponse[]>(`applications/allcontractstatuses`, {withCredentials: true});
+        }
+    }
+
+    static async setViewed(applicationUuid: string): Promise<AxiosResponse> {
+        try {
+            const res = await $api.get(`applications/${applicationUuid}/setview`, {withCredentials: true});
             if (res.status !== 200) {
                 console.log(res);
                 throw new Error();

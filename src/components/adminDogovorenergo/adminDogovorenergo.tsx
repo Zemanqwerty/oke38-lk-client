@@ -125,59 +125,99 @@ const AdminDogovorenergo: FC = () => {
                 <table className={styles.applicationsTable}>
                     <tr>
                         <th className={styles.tableTitles}>
-                            Дата создания
+                        <div className={styles.tableTitleBlock}>
+                                Дата создания
+                            </div>
+                            <hr className={styles.tableTitleHr} />
+                            <div className={styles.tableTitleBlock}></div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Потребитель
+                                <div className={styles.tableTitleBlock}>
+                                    Потребитель
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}></div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchApplicationId(e.target.value)} value={searchApplicationId}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Дата подачи заявки
+                                <div className={styles.tableTitleBlock}>
+                                    Дата подачи заявки
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}></div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchCity(e.target.value)} value={searchCity}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Номер заявки присв.
+                                <div className={styles.tableTitleBlock}>
+                                    Номер заявки присв.
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}></div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchAddress(e.target.value)} value={searchAddress}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Дата заявки присв.
+                                <div className={styles.tableTitleBlock}>
+                                    Дата заявки присв.
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}></div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchUser(e.target.value)} value={searchUser}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Статус заявки
+                                <div className={styles.tableTitleBlock}>
+                                    Статус заявки
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}></div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchMaxPower(e.target.value)} value={searchMaxPower}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Адрес ЭПУ
+                                <div className={styles.tableTitleBlock}>
+                                    Адрес ЭПУ
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}></div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchMaxPower(e.target.value)} value={searchMaxPower}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Номер договора энергоснабжения
+                                <div className={styles.tableTitleBlock}>
+                                    Номер договора энерг.
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}></div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchMaxPower(e.target.value)} value={searchMaxPower}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Номер лицевого счёта
+                                <div className={styles.tableTitleBlock}>
+                                    Номер лицевого счёта
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}></div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchMaxPower(e.target.value)} value={searchMaxPower}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Номер электроустановки
+                                <div className={styles.tableTitleBlock}>
+                                    Номер ЭУ
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}></div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchMaxPower(e.target.value)} value={searchMaxPower}/> */}
                             </div>
                         </th>

@@ -54,6 +54,10 @@ const MainPage: FC<PageData> = (props: PageData) => {
         navigate(`/application/new`);
     };
 
+    const handleMessagesClick = () => {
+        navigate(`/messages`);
+    };
+
     if (store.role === 'администратор') {
        
         return (
@@ -66,6 +70,7 @@ const MainPage: FC<PageData> = (props: PageData) => {
                             <button className={styles.lkApplicationsNavBtn} onClick={() => handleApplicationsClick()}>Все заявки</button>
                             <button className={styles.lkApplicationsNavBtn} onClick={() => handleUsersClick()}>Пользователи</button>
                             <button className={styles.lkApplicationsNavBtn} onClick={() => handleDogovorClick()}>Договоры энергоснабжения</button>
+                            <button className={styles.lkApplicationsNavBtn} onClick={() => handleMessagesClick()}>Электронная переписка</button>
                         </div>
                         {/* <div className="">
                             <button className={styles.lkNavInfoBtn}>Справка</button>

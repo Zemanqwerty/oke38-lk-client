@@ -108,11 +108,12 @@ const AdminUsers: FC = () => {
     }
 
     const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSearchRole(event.target.value ? parseInt(event.target.value) : undefined);
+        setSearchRole(event.target.value === '' ? undefined : parseInt(event.target.value));
     };
 
     const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSearchType(event.target.value ? parseInt(event.target.value) : undefined);
+        // console.log(event.target.value);
+        setSearchType(event.target.value === '' ? undefined : parseInt(event.target.value));
     };
 
     // const showUserRole = (role: string) => {
@@ -178,61 +179,89 @@ const AdminUsers: FC = () => {
                 <table className={styles.applicationsTable}>
                     <tr>
                         <th className={styles.tableTitles}>
-                            Дата регистрации
+                            <div className={styles.tableTitleBlock}>
+                                Дата регистрации
+                            </div>
+                            <hr className={styles.tableTitleHr} />
+                            <div className={styles.tableTitleBlock}></div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Электронная почта
-                                <input type="text" className={styles.tableSearchInput} placeholder="" onChange={e => setSearchEmail(e.target.value)} value={searchEmail}/>
+                                <div className={styles.tableTitleBlock}>
+                                    Электронная почта
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <input type="text" className={styles.tableSearchInput} placeholder="Поиск..." onChange={e => setSearchEmail(e.target.value)} value={searchEmail}/>
+                                </div>
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Номер телефона
-                                <input type="text" className={styles.tableSearchInput} placeholder="" onChange={e => setSearchPhone(e.target.value)} value={searchPhone}/>
+                                <div className={styles.tableTitleBlock}>
+                                    Номер телефона
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <input type="text" className={styles.tableSearchInput} placeholder="Поиск..." onChange={e => setSearchPhone(e.target.value)} value={searchPhone}/>
+                                </div>
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Тип
-                                <select value={searchType} onChange={handleTypeChange} className={styles.tableSearchInput}>
-                                    <option value={undefined}></option>
-                                    {
-                                        userTypes?.length ?
-                                        userTypes.map((type) => {
-                                            return (
-                                                <option value={type.idClient}>{type.caption}</option>
-                                            )
-                                        }) : null
-                                    }
-                                </select>
+                                <div className={styles.tableTitleBlock}>
+                                    Тип
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <select value={searchType} onChange={handleTypeChange} className={styles.tableSearchInput}>
+                                        <option value=''>Выбрать...</option>
+                                        {
+                                            userTypes?.length ?
+                                            userTypes.map((type) => {
+                                                return (
+                                                    <option value={type.idClient}>{type.caption}</option>
+                                                )
+                                            }) : null
+                                        }
+                                    </select>
+                                </div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchAddress(e.target.value)} value={searchAddress}/> */}
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Фио
-                                <input type="text" className={styles.tableSearchInput} placeholder="" onChange={e => setSearchUser(e.target.value)} value={searchUser}/>
+                                <div className={styles.tableTitleBlock}>
+                                    ФИО
+                                </div>
+                                <hr className={styles.tableTitleHr} />
+                                <div className={styles.tableTitleBlock}>
+                                    <input type="text" className={styles.tableSearchInput} placeholder="Поиск..." onChange={e => setSearchUser(e.target.value)} value={searchUser}/>
+                                </div>
                             </div>
                         </th>
                         <th className={styles.tableTitles}>
                             <div className={styles.th_wrapper_block}>
-                                Роль
-                                <select value={searchRole} onChange={handleRoleChange} className={styles.tableSearchInput}>
-                                    <option value={undefined}></option>
-                                    {
-                                        userRoles?.length ?
-                                        userRoles.map((role) => {
-                                            return (
-                                                <option value={role.idClient}>{role.caption}</option>
-                                            )
-                                        }) : null
-                                    }
-                                </select>
+                                <div className={styles.tableTitleBlock}>
+                                    Роль
+                                </div>
+                                <div className={styles.tableTitleBlock}>
+                                    <select value={searchRole} onChange={handleRoleChange} className={styles.tableSearchInput}>
+                                        <option value=''>Выбрать...</option>
+                                        {
+                                            userRoles?.length ?
+                                            userRoles.map((role) => {
+                                                return (
+                                                    <option value={role.idClient}>{role.caption}</option>
+                                                )
+                                            }) : null
+                                        }
+                                    </select>
+                                </div>
                                 {/* <input type="text" className={styles.tableSearchInput} placeholder="Поиск по полю..." onChange={e => setSearchMaxPower(e.target.value)} value={searchMaxPower}/> */}
                             </div>
                         </th>
-                        <th className={styles.tableTitles}>
+                        <th className={`${styles.tableTitles} ${styles.delete}`}>
                             Действие
                         </th>
                     </tr>
